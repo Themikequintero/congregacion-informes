@@ -330,6 +330,24 @@
       background: rgba(255, 255, 255, 0.15);
     }
     
+    /* Select */
+    select {
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      color: white;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      min-width: 200px;
+    }
+    
+    select:focus {
+      outline: none;
+      border-color: #5a398a;
+    }
+    
     /* Table */
     .table-container {
       overflow-x: auto;
@@ -395,6 +413,83 @@
       background: rgba(255, 255, 255, 0.1);
     }
     
+    /* Search */
+    .search-box {
+      position: relative;
+      flex: 1;
+      max-width: 400px;
+    }
+    
+    .search-box input {
+      width: 100%;
+      padding: 12px 16px 12px 44px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      color: white;
+      font-size: 15px;
+    }
+    
+    .search-box input:focus {
+      outline: none;
+      border-color: #5a398a;
+    }
+    
+    .search-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+    }
+    
+    /* Report Grid */
+    .report-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+    
+    .report-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 24px;
+      border-radius: 16px;
+    }
+    
+    .report-header {
+      font-size: 14px;
+      font-weight: 600;
+      color: #94a3b8;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .report-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .report-stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .report-stat-label {
+      font-size: 14px;
+      color: #cbd5e1;
+    }
+    
+    .report-stat-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: white;
+    }
+    
     /* Loading */
     .loading {
       text-align: center;
@@ -453,7 +548,7 @@
             <div class="month-badge" id="mes-actual">Marzo 2026</div>
           </div>
         </div>
-        <div style="display: flex; gap: 12px;">
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
           <button class="btn btn-success">
             <i data-lucide="download" width="18" height="18"></i>
             Exportar Excel
@@ -531,6 +626,7 @@
       </div>
       
       <div class="groups-grid">
+        <!-- Grupo 1 -->
         <div class="group-card">
           <div class="group-header">
             <h3 class="group-title">Grupo 1</h3>
@@ -557,6 +653,7 @@
           </div>
         </div>
         
+        <!-- Grupo 2 -->
         <div class="group-card">
           <div class="group-header">
             <h3 class="group-title">Grupo 2</h3>
@@ -583,7 +680,140 @@
           </div>
         </div>
         
-        <!-- Grupos 3-7 similar... -->
+        <!-- Grupo 3 -->
+        <div class="group-card">
+          <div class="group-header">
+            <h3 class="group-title">Grupo 3</h3>
+            <span class="group-badge">21 publicadores</span>
+          </div>
+          <div class="progress-section">
+            <div class="progress-label">
+              <span style="color: #94a3b8;">Progreso</span>
+              <span style="color: white; font-weight: 600;">16/21 (76%)</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 76%"></div>
+            </div>
+          </div>
+          <div class="group-stats">
+            <div class="group-stat">
+              <div class="group-stat-value">178</div>
+              <div class="group-stat-label">Horas</div>
+            </div>
+            <div class="group-stat">
+              <div class="group-stat-value">15</div>
+              <div class="group-stat-label">Estudios</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Grupo 4 -->
+        <div class="group-card">
+          <div class="group-header">
+            <h3 class="group-title">Grupo 4</h3>
+            <span class="group-badge">25 publicadores</span>
+          </div>
+          <div class="progress-section">
+            <div class="progress-label">
+              <span style="color: #94a3b8;">Progreso</span>
+              <span style="color: white; font-weight: 600;">19/25 (76%)</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 76%"></div>
+            </div>
+          </div>
+          <div class="group-stats">
+            <div class="group-stat">
+              <div class="group-stat-value">210</div>
+              <div class="group-stat-label">Horas</div>
+            </div>
+            <div class="group-stat">
+              <div class="group-stat-value">18</div>
+              <div class="group-stat-label">Estudios</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Grupo 5 -->
+        <div class="group-card">
+          <div class="group-header">
+            <h3 class="group-title">Grupo 5</h3>
+            <span class="group-badge">22 publicadores</span>
+          </div>
+          <div class="progress-section">
+            <div class="progress-label">
+              <span style="color: #94a3b8;">Progreso</span>
+              <span style="color: white; font-weight: 600;">15/22 (68%)</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 68%"></div>
+            </div>
+          </div>
+          <div class="group-stats">
+            <div class="group-stat">
+              <div class="group-stat-value">142</div>
+              <div class="group-stat-label">Horas</div>
+            </div>
+            <div class="group-stat">
+              <div class="group-stat-value">11</div>
+              <div class="group-stat-label">Estudios</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Grupo 6 -->
+        <div class="group-card">
+          <div class="group-header">
+            <h3 class="group-title">Grupo 6</h3>
+            <span class="group-badge">24 publicadores</span>
+          </div>
+          <div class="progress-section">
+            <div class="progress-label">
+              <span style="color: #94a3b8;">Progreso</span>
+              <span style="color: white; font-weight: 600;">18/24 (75%)</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 75%"></div>
+            </div>
+          </div>
+          <div class="group-stats">
+            <div class="group-stat">
+              <div class="group-stat-value">188</div>
+              <div class="group-stat-label">Horas</div>
+            </div>
+            <div class="group-stat">
+              <div class="group-stat-value">13</div>
+              <div class="group-stat-label">Estudios</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Grupo 7 -->
+        <div class="group-card">
+          <div class="group-header">
+            <h3 class="group-title">Grupo 7</h3>
+            <span class="group-badge">23 publicadores</span>
+          </div>
+          <div class="progress-section">
+            <div class="progress-label">
+              <span style="color: #94a3b8;">Progreso</span>
+              <span style="color: white; font-weight: 600;">12/23 (52%)</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 52%"></div>
+            </div>
+          </div>
+          <div class="group-stats">
+            <div class="group-stat">
+              <div class="group-stat-value">115</div>
+              <div class="group-stat-label">Horas</div>
+            </div>
+            <div class="group-stat">
+              <div class="group-stat-value">12</div>
+              <div class="group-stat-label">Estudios</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     
@@ -595,8 +825,21 @@
             <i data-lucide="users" width="24" height="24"></i>
             Vista por Grupo
           </h2>
+          <select id="select-grupo-detalle">
+            <option value="">Selecciona un grupo...</option>
+            <option value="1">Grupo 1</option>
+            <option value="2">Grupo 2</option>
+            <option value="3">Grupo 3</option>
+            <option value="4">Grupo 4</option>
+            <option value="5">Grupo 5</option>
+            <option value="6">Grupo 6</option>
+            <option value="7">Grupo 7</option>
+          </select>
         </div>
-        <p style="color: #94a3b8;">Selecciona un grupo para ver detalles...</p>
+        
+        <div id="grupo-detalle-content" style="color: #94a3b8; text-align: center; padding: 40px;">
+          Selecciona un grupo para ver los detalles
+        </div>
       </div>
     </div>
     
@@ -608,14 +851,20 @@
             <i data-lucide="user" width="24" height="24"></i>
             Gestionar Publicadores
           </h2>
-          <button class="btn btn-primary">
-            <i data-lucide="plus" width="18" height="18"></i>
-            Agregar Publicador
-          </button>
+          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <div class="search-box">
+              <i data-lucide="search" class="search-icon" width="18" height="18"></i>
+              <input type="text" id="search-publicadores" placeholder="Buscar publicador...">
+            </div>
+            <button class="btn btn-primary">
+              <i data-lucide="plus" width="18" height="18"></i>
+              Agregar Publicador
+            </button>
+          </div>
         </div>
         
         <div class="table-container">
-          <table>
+          <table id="tabla-publicadores">
             <thead>
               <tr>
                 <th>Nombre</th>
@@ -625,27 +874,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Alba N. Zúñiga</td>
-                <td>Grupo 1</td>
-                <td><span class="badge badge-publicador">Publicador</span></td>
-                <td>
-                  <button class="action-btn">
-                    <i data-lucide="edit" width="14" height="14"></i>
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td>Consuelo Ospina</td>
-                <td>Grupo 1</td>
-                <td><span class="badge badge-precursor">Precursor Regular</span></td>
-                <td>
-                  <button class="action-btn">
-                    <i data-lucide="edit" width="14" height="14"></i>
-                  </button>
-                </td>
-              </tr>
-              <!-- Más filas... -->
+              <!-- Se llenará con JavaScript -->
             </tbody>
           </table>
         </div>
@@ -662,23 +891,59 @@
           </h2>
         </div>
         
-        <div class="overview-grid">
-          <div class="stat-card">
-            <div class="stat-label">Publicadores</div>
-            <div class="stat-value">102/130</div>
-            <div class="stat-subtext">78% informaron</div>
+        <div class="report-grid">
+          <div class="report-card">
+            <div class="report-header">Publicadores</div>
+            <div class="report-stats">
+              <div class="report-stat-row">
+                <span class="report-stat-label">Informaron:</span>
+                <span class="report-stat-value">102/130</span>
+              </div>
+              <div class="report-stat-row">
+                <span class="report-stat-label">Porcentaje:</span>
+                <span class="report-stat-value">78%</span>
+              </div>
+              <div class="report-stat-row">
+                <span class="report-stat-label">Estudios:</span>
+                <span class="report-stat-value">28</span>
+              </div>
+            </div>
           </div>
           
-          <div class="stat-card">
-            <div class="stat-label">Precursores Auxiliares</div>
-            <div class="stat-value">10/11</div>
-            <div class="stat-subtext">232 horas totales</div>
+          <div class="report-card">
+            <div class="report-header">Precursores Auxiliares</div>
+            <div class="report-stats">
+              <div class="report-stat-row">
+                <span class="report-stat-label">Informaron:</span>
+                <span class="report-stat-value">10/11</span>
+              </div>
+              <div class="report-stat-row">
+                <span class="report-stat-label">Horas totales:</span>
+                <span class="report-stat-value">232</span>
+              </div>
+              <div class="report-stat-row">
+                <span class="report-stat-label">Estudios:</span>
+                <span class="report-stat-value">11</span>
+              </div>
+            </div>
           </div>
           
-          <div class="stat-card">
-            <div class="stat-label">Precursores Regulares</div>
-            <div class="stat-value">25/26</div>
-            <div class="stat-subtext">870 horas totales</div>
+          <div class="report-card">
+            <div class="report-header">Precursores Regulares</div>
+            <div class="report-stats">
+              <div class="report-stat-row">
+                <span class="report-stat-label">Informaron:</span>
+                <span class="report-stat-value">25/26</span>
+              </div>
+              <div class="report-stat-row">
+                <span class="report-stat-label">Horas totales:</span>
+                <span class="report-stat-value">870</span>
+              </div>
+              <div class="report-stat-row">
+                <span class="report-stat-label">Estudios:</span>
+                <span class="report-stat-value">50</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -692,12 +957,18 @@
             <i data-lucide="archive" width="24" height="24"></i>
             Historial de Meses
           </h2>
+          <select>
+            <option value="">Selecciona mes...</option>
+            <option value="feb-2026">Febrero 2026</option>
+            <option value="ene-2026">Enero 2026</option>
+            <option value="dic-2025">Diciembre 2025</option>
+            <option value="nov-2025">Noviembre 2025</option>
+          </select>
         </div>
-        <p style="color: #94a3b8;">Consulta informes de meses anteriores...</p>
+        <p style="color: #94a3b8; text-align: center; padding: 40px;">Selecciona un mes para ver el historial</p>
       </div>
     </div>
   </div>
-  
   <script>
     lucide.createIcons();
     
@@ -718,6 +989,148 @@
         lucide.createIcons();
       });
     });
+    
+    // Cargar publicadores en la tabla
+    async function cargarPublicadores() {
+      try {
+        const response = await fetch('https://script.google.com/macros/s/AKfycbz2-E2fKT0sy56ybi4flBg1kKFl-nIUIZovtWl-a0sNDu6Ux_NynRo7Fg7YcqBme624UQ/exec?action=getTodosPublicadores');
+        const data = await response.json();
+        
+        if (data.success) {
+          mostrarPublicadores(data.data);
+        }
+      } catch (error) {
+        console.error('Error cargando publicadores:', error);
+      }
+    }
+    
+    function mostrarPublicadores(publicadores) {
+      const tbody = document.querySelector('#tabla-publicadores tbody');
+      tbody.innerHTML = '';
+      
+      publicadores.forEach(pub => {
+        const tr = document.createElement('tr');
+        
+        const categoriaBadge = pub.categoria.includes('Precursor') ? 
+          `<span class="badge badge-precursor">${pub.categoria}</span>` :
+          `<span class="badge badge-publicador">${pub.categoria}</span>`;
+        
+        tr.innerHTML = `
+          <td>${pub.nombre}</td>
+          <td>Grupo ${pub.grupo}</td>
+          <td>${categoriaBadge}</td>
+          <td>
+            <button class="action-btn" onclick="editarPublicador('${pub.nombre}')">
+              <i data-lucide="edit" width="14" height="14"></i>
+            </button>
+          </td>
+        `;
+        
+        tbody.appendChild(tr);
+      });
+      
+      lucide.createIcons();
+    }
+    
+    function editarPublicador(nombre) {
+      alert('Editar: ' + nombre + '\n(Funcionalidad próximamente)');
+    }
+    
+    // Búsqueda de publicadores
+    document.getElementById('search-publicadores')?.addEventListener('input', function(e) {
+      const searchTerm = e.target.value.toLowerCase();
+      const rows = document.querySelectorAll('#tabla-publicadores tbody tr');
+      
+      rows.forEach(row => {
+        const nombre = row.cells[0].textContent.toLowerCase();
+        if (nombre.includes(searchTerm)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    });
+    
+    // Selector de grupo detalle
+    document.getElementById('select-grupo-detalle')?.addEventListener('change', async function(e) {
+      const grupo = e.target.value;
+      
+      if (!grupo) {
+        document.getElementById('grupo-detalle-content').innerHTML = 
+          '<p style="color: #94a3b8; text-align: center; padding: 40px;">Selecciona un grupo para ver los detalles</p>';
+        return;
+      }
+      
+      document.getElementById('grupo-detalle-content').innerHTML = 
+        '<div class="loading"><i data-lucide="loader-2" width="32" height="32"></i><p>Cargando datos del grupo...</p></div>';
+      lucide.createIcons();
+      
+      try {
+        const response = await fetch(`https://script.google.com/macros/s/AKfycbz2-E2fKT0sy56ybi4flBg1kKFl-nIUIZovtWl-a0sNDu6Ux_NynRo7Fg7YcqBme624UQ/exec?action=getPublicadores&grupo=${grupo}`);
+        const data = await response.json();
+        
+        if (data.success) {
+          mostrarDetalleGrupo(data.data, grupo);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('grupo-detalle-content').innerHTML = 
+          '<p style="color: #ef4444; text-align: center; padding: 40px;">Error al cargar datos</p>';
+      }
+    });
+    
+    function mostrarDetalleGrupo(publicadores, grupo) {
+      const container = document.getElementById('grupo-detalle-content');
+      
+      let html = `
+        <div style="margin-bottom: 24px;">
+          <h3 style="color: white; font-size: 24px; margin-bottom: 8px;">Grupo ${grupo}</h3>
+          <p style="color: #94a3b8;">Total de ${publicadores.length} publicadores</p>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+      `;
+      
+      publicadores.forEach(pub => {
+        const categoriaBadge = pub.categoria.includes('Precursor') ? 
+          `<span class="badge badge-precursor">${pub.categoria}</span>` :
+          `<span class="badge badge-publicador">${pub.categoria}</span>`;
+        
+        // Simulación: algunos informaron
+        const informo = Math.random() > 0.3;
+        const estadoBadge = informo ? 
+          '<span style="color: #10b981;">✓ Informó</span>' :
+          '<span style="color: #f59e0b;">⏱ Pendiente</span>';
+        
+        html += `
+          <tr>
+            <td>${pub.nombre}</td>
+            <td>${categoriaBadge}</td>
+            <td>${estadoBadge}</td>
+          </tr>
+        `;
+      });
+      
+      html += `
+            </tbody>
+          </table>
+        </div>
+      `;
+      
+      container.innerHTML = html;
+      lucide.createIcons();
+    }
+    
+    // Cargar publicadores al iniciar
+    cargarPublicadores();
   </script>
 </body>
 </html>
