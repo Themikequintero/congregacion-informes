@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>Informe de Predicación</title>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #f8fafc;
+    color: #1e293b;
+    padding: 8px;
+    min-height: 100vh;
+    -webkit-text-size-adjust: 100%;
+  }
+  
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  
+  .header {
+    background: linear-gradient(135deg, #5a398a 0%, #7b5aa6 100%);
+    color: white;
+    padding: 32px 24px;
+    border-radius: 16px;
+    text-align: center;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(90, 57, 138, 0.1);
+  }
+  
+  .header-icon {
+    margin-bottom: 12px;
+  }
+  
+  .header h1 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  
+  .header p {
+    font-size: 16px;
+    opacity: 0.9;
+  }
+  
+  .card {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin-bottom: 16px;
+  }
+  
+  .form-group {
+    margin-bottom: 24px;
+  }
+  
+  label {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #334155;
+  }
+  
+  select, input[type="text"], input[type="number"] {
+    width: 100%;
+    padding: 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 17px;
+    transition: all 0.2s;
+    -webkit-appearance: none;
+  }
+  
+  select:focus, input:focus {
+    outline: none;
+    border-color: #5a398a;
+    box-shadow: 0 0 0 3px rgba(90, 57, 138, 0.1);
+  }
+  
+  .search-box {
+    position: relative;
+  }
+  
+  .search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    pointer-events: none;
+  }
+  
+  .search-box input {
+    padding-left: 52px;
+  }
+  
+  .publicador-list {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-top: 16px;
+  }
+  
+  .publicador-item {
+    padding: 20px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 17px;
+  }
+  
+  .publicador-item:active {
+    transform: scale(0.98);
+    border-color: #5a398a;
+    background: #f8f5fc;
+  }
+  
+  .btn {
+    width: 100%;
+    padding: 18px;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.2s;
+  }
+  
+  .btn-primary {
+    background: #059669;
+    color: white;
+  }
+  
+  .btn-primary:active {
+    transform: scale(0.98);
+    background: #047857;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  .loading {
+    text-align: center;
+    padding: 40px;
+    color: #64748b;
+  }
+  
+  .info-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: #f1f5f9;
+    border-radius: 8px;
+    font-size: 15px;
+    color: #5a398a;
+    font-weight: 500;
+  }
+  
+  input[type="checkbox"], input[type="radio"] {
+    width: 20px !important;
+    height: 20px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-icon">
+        <i data-lucide="clipboard" width="32" height="32"></i>
+      </div>
+      <h1>Informe de Predicación</h1>
+      <p id="mes-actual">Marzo 2026</p>
+    </div>
+    
+    <!-- Paso 1: Seleccionar Grupo -->
+    <div id="paso-grupo" class="card">
+      <div class="form-group">
+        <label>Tu grupo</label>
+        <select id="select-grupo">
+          <option value="">Selecciona tu grupo...</option>
+          <option value="1">Grupo 1</option>
+          <option value="2">Grupo 2</option>
+          <option value="3">Grupo 3</option>
+          <option value="4">Grupo 4</option>
+          <option value="5">Grupo 5</option>
+          <option value="6">Grupo 6</option>
+          <option value="7">Grupo 7</option>
+        </select>
+      </div>
+    </div>
+    
+    <!-- Paso 2: Buscar Nombre -->
+    <div id="paso-nombre" class="card hidden">
+      <div class="form-group">
+        <label>Busca tu nombre</label>
+        <div class="search-box">
+          <i data-lucide="search" class="search-icon" width="20" height="20"></i>
+          <input type="text" id="search-input" placeholder="Escribe tu nombre...">
+        </div>
+        <div id="publicador-list" class="publicador-list"></div>
+      </div>
+      <div id="loading" class="loading hidden">
+        <i data-lucide="loader-2" class="animate-spin" width="24" height="24"></i>
+        <p>Cargando...</p>
+      </div>
+    </div>
+    
+    <!-- Paso 3: Formulario de Informe -->
+    <div id="paso-informe" class="card hidden">
+      <div style="margin-bottom: 20px;">
+        <h3 id="nombre-seleccionado" style="font-size: 18px; margin-bottom: 8px;"></h3>
+        <span id="categoria-badge" class="info-badge"></span>
+      </div>
+      
+      <div id="form-publicador" class="hidden">
+        <div class="form-group">
+          <label style="margin-bottom: 12px;">¿Participaste en el ministerio?</label>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <label style="display: flex; align-items: center; font-weight: 400;">
+              <input type="radio" name="participo" value="si" style="width: 20px; height: 20px; margin-right: 12px;">
+              Sí, participé
+            </label>
+            <label style="display: flex; align-items: center; font-weight: 400;">
+              <input type="radio" name="participo" value="no" style="width: 20px; height: 20px; margin-right: 12px;">
+              No participé
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Estudios bíblicos</label>
+          <input type="number" id="input-estudios" min="0" value="0">
+        </div>
+      </div>
+      
+      <div id="form-precursor" class="hidden">
+        <div class="form-group">
+          <label>Horas de predicación</label>
+          <input type="number" id="input-horas" min="0" placeholder="0">
+        </div>
+        <div class="form-group">
+          <label>Estudios bíblicos</label>
+          <input type="number" id="input-estudios-prec" min="0" value="0">
+        </div>
+      </div>
+      
+      <button class="btn btn-primary" onclick="enviarInforme()">
+        <i data-lucide="check" width="20" height="20"></i>
+        Enviar Informe
+      </button>
+    </div>
+  </div>
+  
+  <script>
+    // Inicializar Lucide icons
+    lucide.createIcons();
+    
+    // Estado
+    let grupoSeleccionado = null;
+    let publicadores = [];
+    let publicadorSeleccionado = null;
+    
+    // Event Listeners
+    document.getElementById('select-grupo').addEventListener('change', function(e) {
+      if (e.target.value) {
+        grupoSeleccionado = parseInt(e.target.value);
+        cargarPublicadores();
+      }
+    });
+    
+    document.getElementById('search-input').addEventListener('input', function(e) {
+      filtrarPublicadores(e.target.value);
+    });
+    
+    // Cargar publicadores del grupo
+    function cargarPublicadores() {
+      document.getElementById('loading').classList.remove('hidden');
+      document.getElementById('paso-nombre').classList.remove('hidden');
+      
+      const url = 'https://script.google.com/macros/s/AKfycbz2-E2fKT0sy56ybi4flBg1kKFl-nIUIZovtWl-a0sNDu6Ux_NynRo7Fg7YcqBme624UQ/exec?action=getPublicadores&grupo=' + grupoSeleccionado;
+      
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          publicadores = data.data;
+          mostrarPublicadores(publicadores);
+          document.getElementById('loading').classList.add('hidden');
+        })
+        .catch(err => {
+          alert('Error al cargar publicadores');
+          console.error(err);
+        });
+    }
+    
+    // Mostrar lista de publicadores
+    function mostrarPublicadores(lista) {
+      const container = document.getElementById('publicador-list');
+      container.innerHTML = '';
+      
+      lista.forEach(pub => {
+        const item = document.createElement('div');
+        item.className = 'publicador-item';
+        item.innerHTML = `
+          <span>${pub.nombre}</span>
+          <i data-lucide="chevron-right" width="20" height="20"></i>
+        `;
+        item.onclick = () => seleccionarPublicador(pub);
+        container.appendChild(item);
+      });
+      
+      lucide.createIcons();
+    }
+    
+    // Filtrar publicadores
+    function filtrarPublicadores(termino) {
+      const filtrados = publicadores.filter(pub => 
+        pub.nombre.toLowerCase().includes(termino.toLowerCase())
+      );
+      mostrarPublicadores(filtrados);
+    }
+    
+    // Seleccionar publicador
+    function seleccionarPublicador(pub) {
+      publicadorSeleccionado = pub;
+      
+      document.getElementById('paso-informe').classList.remove('hidden');
+      document.getElementById('nombre-seleccionado').textContent = pub.nombre;
+      
+      const esPrecursor = pub.categoria.includes('Precursor');
+      
+      document.getElementById('categoria-badge').innerHTML = `
+        <i data-lucide="${esPrecursor ? 'award' : 'user'}" width="16" height="16"></i>
+        ${pub.categoria}
+      `;
+      
+      if (esPrecursor) {
+        document.getElementById('form-precursor').classList.remove('hidden');
+        document.getElementById('form-publicador').classList.add('hidden');
+      } else {
+        document.getElementById('form-publicador').classList.remove('hidden');
+        document.getElementById('form-precursor').classList.add('hidden');
+      }
+      
+      lucide.createIcons();
+      
+      // Scroll al formulario
+      document.getElementById('paso-informe').scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    // Enviar informe
+    function enviarInforme() {
+      const esPrecursor = publicadorSeleccionado.categoria.includes('Precursor');
+      
+      const datos = {
+        action: 'guardarInforme',
+        nombre: publicadorSeleccionado.nombre,
+        mes: 'mar',
+        esPrecursor: esPrecursor
+      };
+      
+      if (esPrecursor) {
+        datos.horas = parseInt(document.getElementById('input-horas').value) || 0;
+        datos.estudios = parseInt(document.getElementById('input-estudios-prec').value) || 0;
+      } else {
+        const radioParticipo = document.querySelector('input[name="participo"]:checked');
+        datos.participo = radioParticipo ? radioParticipo.value === 'si' : false;
+        datos.estudios = parseInt(document.getElementById('input-estudios').value) || 0;
+      }
+      
+      // Enviar al backend
+      fetch('https://script.google.com/macros/s/AKfycbz2-E2fKT0sy56ybi4flBg1kKFl-nIUIZovtWl-a0sNDu6Ux_NynRo7Fg7YcqBme624UQ/exec', {
+        method: 'POST',
+        body: JSON.stringify(datos)
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert('¡Informe enviado exitosamente!');
+          location.reload();
+        } else {
+          alert('Error: ' + data.error);
+        }
+      })
+      .catch(err => {
+        alert('Error al enviar informe');
+        console.error(err);
+      });
+    }
+  </script>
+</body>
+</html>
