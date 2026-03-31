@@ -3,32 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Informe de Actividad</title>
+  <title>Informe | Secretaría</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;800&display=swap');
     body { font-family: 'Plus Jakarta Sans', sans-serif; background: #000; color: #cbd5e1; }
-    .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); }
-    .input-field { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 1.2rem; border-radius: 1.2rem; width: 100%; text-align: center; font-size: 1.2rem; outline: none; }
+    .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.08); }
+    .input-field { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 1rem; border-radius: 1rem; width: 100%; outline: none; text-align: center; font-size: 1.2rem; }
     .btn-grad { background: linear-gradient(135deg, #5a398a 0%, #7b5aa6 100%); color: white; font-weight: 800; padding: 1.2rem; border-radius: 1.2rem; width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
     .btn-active-si { border: 2px solid #7b5aa6; background: rgba(123, 90, 166, 0.2); }
     .btn-active-no { border: 2px solid #ef4444; background: rgba(239, 68, 68, 0.1); }
   </style>
 </head>
-<body class="p-4 flex flex-col items-center min-h-screen">
-  <div class="w-full max-w-md space-y-6 mt-4">
+<body class="p-4 flex flex-col items-center">
+  <div class="w-full max-w-md space-y-6">
     
     <header class="glass p-8 rounded-[2.5rem] text-center space-y-3">
       <div class="h-14 w-14 bg-purple-600 rounded-2xl flex items-center justify-center mx-auto shadow-lg shadow-purple-500/20">
         <i data-lucide="send" class="text-white"></i>
       </div>
-      <h1 class="text-2xl font-extrabold text-white tracking-tight">Enviar Informe</h1>
+      <h1 class="text-2xl font-extrabold text-white">Enviar Informe</h1>
       <p id="label-mes" class="text-purple-400 font-bold text-xs uppercase tracking-widest"></p>
     </header>
 
     <div id="step-1" class="glass p-6 rounded-[2rem] space-y-4 text-center">
-      <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">¿Cuál es tu grupo?</p>
+      <p class="text-[10px] font-bold text-slate-500 uppercase">¿Tu grupo?</p>
       <div class="grid grid-cols-4 gap-2">
         <button onclick="elegirGrupo(1)" class="glass p-4 rounded-xl font-black text-xl">1</button>
         <button onclick="elegirGrupo(2)" class="glass p-4 rounded-xl font-black text-xl">2</button>
@@ -47,48 +47,33 @@
 
     <div id="step-3" class="hidden glass p-8 rounded-[2.5rem] space-y-6">
       <div class="text-center border-b border-white/5 pb-4">
-        <h2 id="display-nombre" class="text-xl font-extrabold text-white"></h2>
-        <p id="display-categoria" class="text-[10px] text-purple-400 font-bold uppercase mt-1"></p>
+        <h2 id="display-nombre" class="text-xl font-extrabold text-white leading-none"></h2>
+        <p id="display-categoria" class="text-[10px] text-purple-400 font-bold uppercase mt-2"></p>
       </div>
-
       <div id="form-pub" class="hidden space-y-6 text-center">
-        <p class="text-[10px] font-bold text-slate-500 uppercase">¿Participaste en la predicación?</p>
         <div class="flex gap-4">
-          <button onclick="setParticipo(true)" id="btn-si" class="flex-1 glass p-5 rounded-2xl font-bold text-lg">SÍ</button>
-          <button onclick="setParticipo(false)" id="btn-no" class="flex-1 glass p-5 rounded-2xl font-bold text-lg">NO</button>
+          <button onclick="setParticipo(true)" id="btn-si" class="flex-1 glass p-5 rounded-2xl font-bold">SÍ</button>
+          <button onclick="setParticipo(false)" id="btn-no" class="flex-1 glass p-5 rounded-2xl font-bold">NO</button>
         </div>
-        <div class="space-y-2">
-          <label class="text-[10px] font-bold text-slate-500 uppercase">Cursos Bíblicos</label>
-          <input type="number" id="est-pub" class="input-field text-3xl font-black" value="0">
-        </div>
+        <input type="number" id="est-pub" class="input-field text-3xl font-black" value="0" placeholder="Estudios">
       </div>
-
-      <div id="form-pre" class="hidden space-y-6 text-center">
-        <div class="space-y-2">
-          <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Horas</label>
-          <input type="number" id="horas-pre" class="input-field text-5xl font-black" placeholder="0">
-        </div>
-        <div class="space-y-2">
-          <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Cursos Bíblicos</label>
-          <input type="number" id="est-pre" class="input-field text-3xl font-black" value="0">
-        </div>
+      <div id="form-pre" class="hidden space-y-6">
+        <input type="number" id="horas-pre" class="input-field text-5xl font-black" placeholder="Horas">
+        <input type="number" id="est-pre" class="input-field text-3xl font-black" value="0" placeholder="Estudios">
       </div>
-
       <button onclick="enviar()" id="btn-enviar" class="btn-grad text-lg">ENVIAR INFORME</button>
     </div>
   </div>
 
   <script>
     lucide.createIcons();
-    // PEGA AQUÍ TU URL DE GOOGLE SCRIPT
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxTOM6Eo5yYGVtJqnBhqkjAfAZ-i3_KttrLCtMmAQa2CrSyZse6PTuHOoTMYQXTxinG4g/exec";
 
     const mesesAbrev = ['ene','feb','mar','abr','may','jun','jul','ago','sept','oct','nov','dic'];
     const hoy = new Date();
     const fReporte = new Date(hoy.getFullYear(), hoy.getMonth() - 1, 1);
     const mAbrev = mesesAbrev[fReporte.getMonth()];
-    const mNombre = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'][fReporte.getMonth()];
-    document.getElementById('label-mes').textContent = "MES DE " + mNombre.toUpperCase();
+    document.getElementById('label-mes').textContent = "MES DE " + mAbrev.toUpperCase();
 
     let pubs = [];
     let seleccionado = null;
@@ -96,7 +81,7 @@
 
     async function elegirGrupo(g) {
       document.getElementById('step-2').classList.remove('hidden');
-      document.getElementById('list-container').innerHTML = '<p class="text-center py-10 text-purple-400 font-bold animate-pulse text-xs">CARGANDO LISTA...</p>';
+      document.getElementById('list-container').innerHTML = '<p class="text-center py-10 text-purple-400 font-bold animate-pulse text-xs">CARGANDO...</p>';
       const res = await fetch(`${SCRIPT_URL}?action=getProgresoGrupo&grupo=${g}&mes=${mAbrev}`);
       const json = await res.json();
       pubs = [...json.data.completados, ...json.data.pendientes];
@@ -131,8 +116,8 @@
 
     function setParticipo(val) {
       participoVal = val;
-      document.getElementById('btn-si').className = val ? 'flex-1 glass p-5 rounded-2xl font-bold btn-active-si text-white' : 'flex-1 glass p-5 rounded-2xl font-bold';
-      document.getElementById('btn-no').className = !val ? 'flex-1 glass p-5 rounded-2xl font-bold btn-active-no text-white' : 'flex-1 glass p-5 rounded-2xl font-bold';
+      document.getElementById('btn-si').className = val ? 'flex-1 glass p-5 rounded-2xl font-bold btn-active-si' : 'flex-1 glass p-5 rounded-2xl font-bold';
+      document.getElementById('btn-no').className = !val ? 'flex-1 glass p-5 rounded-2xl font-bold btn-active-no' : 'flex-1 glass p-5 rounded-2xl font-bold';
     }
 
     async function enviar() {
@@ -145,19 +130,15 @@
         datos.horas = parseInt(document.getElementById('horas-pre').value) || 0;
         datos.estudios = parseInt(document.getElementById('est-pre').value) || 0;
       } else {
-        if (participoVal === null) { alert("Indica si participaste"); btn.disabled = false; btn.textContent = "ENVIAR INFORME"; return; }
+        if (participoVal === null) { alert("Selecciona SÍ o NO"); btn.disabled = false; btn.textContent = "ENVIAR INFORME"; return; }
         datos.participo = participoVal;
         datos.estudios = parseInt(document.getElementById('est-pub').value) || 0;
       }
 
-      const response = await fetch(SCRIPT_URL, {
-        method: 'POST',
-        body: JSON.stringify(datos)
-      });
-      
+      const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(datos) });
       const res = await response.json();
       if(res.success) {
-        document.body.innerHTML = '<div class="h-screen flex flex-col items-center justify-center p-8 text-center space-y-4"><h1 class="text-4xl font-black text-white leading-tight">INFORME ENVIADO</h1><p class="text-purple-400 font-bold text-lg">Gracias por tu actividad.</p><button onclick="location.reload()" class="mt-8 text-xs font-black text-slate-600 uppercase tracking-widest">Enviar otro</button></div>';
+        document.body.innerHTML = '<div class="h-screen flex flex-col items-center justify-center p-8 text-center"><h1 class="text-4xl font-black text-white">¡ENVIADO!</h1><p class="text-purple-400 font-bold mt-4">Informe guardado correctamente.</p></div>';
       }
     }
   </script>
