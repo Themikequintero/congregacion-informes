@@ -469,45 +469,54 @@ function mostrarInformeYaEnviado(pub, informe, mes) {
 }
   
     
-    // Enviar informe
-    function enviarInforme() {
-      const esPrecursor = publicadorSeleccionado.categoria.includes('Precursor');
-      
-      const datos = {
-        action: 'guardarInforme',
-        nombre: publicadorSeleccionado.nombre,
-        mes: 'mar',
-        esPrecursor: esPrecursor
-      };
-      
-      if (esPrecursor) {
-        datos.horas = parseInt(document.getElementById('input-horas').value) || 0;
-        datos.estudios = parseInt(document.getElementById('input-estudios-prec').value) || 0;
-      } else {
-        const radioParticipo = document.querySelector('input[name="participo"]:checked');
-        datos.participo = radioParticipo ? radioParticipo.value === 'si' : false;
-        datos.estudios = parseInt(document.getElementById('input-estudios').value) || 0;
-      }
-      
-      // Enviar al backend
-      fetch('https://script.google.com/macros/s/AKfycbz2-E2fKT0sy56ybi4flBg1kKFl-nIUIZovtWl-a0sNDu6Ux_NynRo7Fg7YcqBme624UQ/exec', {
-        method: 'POST',
-        body: JSON.stringify(datos)
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          alert('¡Informe enviado exitosamente!');
-          location.reload();
-        } else {
-          alert('Error: ' + data.error);
-        }
-      })
-      .catch(err => {
-        alert('Error al enviar informe');
-        console.error(err);
-      });
+   // Enviar informe
+function enviarInforme() {
+  const esPrecursor = publicadorSeleccionado.categoria.includes('Precursor');
+  
+  // Detectar mes a reportar
+  const mesActual = new Date();
+  const mesReportar = new Date(mesActual.getFullYear(), mesActual.getMonth() - 1);
+  const mesesAbrev = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sept', 'oct', 'nov', 'dic'];
+  const mesAbreviado = mesesAbrev[mesReportar.getMonth()];
+  
+  const datos = {
+    action: 'guardarInforme',
+    nombre: publicadorSeleccionado.nombre,
+    mes: mesAbreviado,
+    esPrecursor: esPrecursor
+  };
+  
+  if (esPrecursor) {
+    datos.horas = parseInt(document.getElementById('input-horas').value) || 0;
+    datos.estudios = parseInt(document.getElementById('input-estudios-prec').value) || 0;
+  } else {
+    const radioParticipo = document.querySelector('input[name="participo"]:checked');
+    datos.participo = radioParticipo ? radioParticipo.value === 'si' : false;
+    datos.estudios = parseInt(document.getElementById('input-estudios').value) || 0;
+  }
+  
+  // Enviar al backend
+  fetch('https://script.google.com/macros/s/AKfycbz2-E2fKT0sy56ybi4flBg1kKFl-nIUIZovtWl-a0sNDu6Ux_NynRo7Fg7YcqBme624UQ/exec', {
+    method: 'POST',
+    body: JSON.stringify(datos)
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      alert('¡Informe enviado exitosamente!');
+      location.reload();
+    } else if (data.yaInformo) {
+      // Ya informó - mostrar resumen
+      mostrarInformeYaEnviado(publicadorSeleccionado, data, mesAbreviado);
+    } else {
+      alert('Error: ' + data.error);
     }
+  })
+  .catch(err => {
+    alert('Error al enviar informe');
+    console.error(err);
+  });
+}
       } // Cierre del else verificarMesCerrado
   </script>
 </body>
