@@ -475,15 +475,22 @@
       document.getElementById('dashboard-content').classList.add('hidden');
       
       try {
-        // Obtener publicadores del grupo
-        const urlPublicadores = 'https://script.google.com/macros/s/AKfycbz2-E2fKT0sy56ybi4flBg1kKFl-nIUIZovtWl-a0sNDu6Ux_NynRo7Fg7YcqBme624UQ/exec?action=getPublicadores&grupo=' + grupoSeleccionado;
-        const resPublicadores = await fetch(urlPublicadores);
-        const dataPublicadores = await resPublicadores.json();
-        const publicadores = dataPublicadores.data;
+        // Detectar mes a reportar (mes anterior)
+        const mesActual = new Date();
+        const mesReportar = new Date(mesActual.getFullYear(), mesActual.getMonth() - 1);
+        const mesesAbrev = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sept', 'oct', 'nov', 'dic'];
+        const mesAbreviado = mesesAbrev[mesReportar.getMonth()];
         
-        // Aquí necesitamos una nueva función en el backend para obtener quién ya informó
-        // Por ahora simulamos datos
-        procesarDatos(publicadores);
+        // Obtener progreso del grupo
+        const url = `https://script.google.com/macros/s/AKfycbz2-E2fKT0sy56ybi4flBg1kKFl-nIUIZovtWl-a0sNDu6Ux_NynRo7Fg7YcqBme624UQ/exec?action=getProgresoGrupo&grupo=${grupoSeleccionado}&mes=${mesAbreviado}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        
+        if (data.success) {
+          mostrarDashboard(data.data);
+        } else {
+          alert('Error al cargar datos');
+        }
         
       } catch (error) {
         console.error('Error:', error);
@@ -491,65 +498,26 @@
       }
     }
     
-    function procesarDatos(publicadores) {
-      // TEMPORAL: Simular que algunos ya informaron
-      // En la siguiente fase conectaremos con Historial_Actividad real
-      
-      const completados = [];
-      const pendientes = [];
-      let totalHoras = 0;
-      let totalEstudios = 0;
-      
-      publicadores.forEach((pub, index) => {
-        // Simulación: 70% han informado
-        const yaInformo = Math.random() > 0.3;
-        
-        if (yaInformo) {
-          const esPrecursor = pub.categoria.includes('Precursor');
-          const horas = esPrecursor ? Math.floor(Math.random() * 50) + 20 : 0;
-          const estudios = Math.floor(Math.random() * 4);
-          
-          completados.push({
-            nombre: pub.nombre,
-            categoria: pub.categoria,
-            horas: horas,
-            estudios: estudios
-          });
-          
-          totalHoras += horas;
-          totalEstudios += estudios;
-        } else {
-          pendientes.push({
-            nombre: pub.nombre,
-            categoria: pub.categoria
-          });
-        }
-      });
-      
-      mostrarDashboard(completados, pendientes, totalHoras, totalEstudios, publicadores.length);
-    }
-    
-    function mostrarDashboard(completados, pendientes, totalHoras, totalEstudios, total) {
-      const progreso = Math.round((completados.length / total) * 100);
-      
+    function mostrarDashboard(progreso) {
       // Actualizar stats
-      document.getElementById('stat-progreso').textContent = progreso + '%';
-      document.getElementById('stat-informados').textContent = completados.length;
-      document.getElementById('stat-total').textContent = total;
-      document.getElementById('stat-horas').textContent = totalHoras;
-      document.getElementById('stat-estudios').textContent = totalEstudios;
-      document.getElementById('progress-fill').style.width = progreso + '%';
+      document.getElementById('stat-progreso').textContent = progreso.porcentaje + '%';
+      document.getElementById('stat-informados').textContent = progreso.informaron;
+      document.getElementById('stat-total').textContent = progreso.total;
+      document.getElementById('stat-horas').textContent = progreso.totalHoras;
+      document.getElementById('stat-estudios').textContent = progreso.totalEstudios;
+      document.getElementById('progress-fill').style.width = progreso.porcentaje + '%';
       
       // Actualizar counts
-      document.getElementById('count-completados').textContent = completados.length;
-      document.getElementById('count-pendientes').textContent = pendientes.length;
+      document.getElementById('count-completados').textContent = progreso.completados.length;
+      document.getElementById('count-pendientes').textContent = progreso.pendientes.length;
       
-      // Renderizar listas
+      // Renderizar lista de completados
       const listCompletados = document.getElementById('list-completados');
       listCompletados.innerHTML = '';
-      completados.forEach(pub => {
+      progreso.completados.forEach(pub => {
         const item = document.createElement('div');
         item.className = 'list-item';
+        const horas = typeof pub.participacion === 'number' ? pub.participacion : 0;
         item.innerHTML = `
           <div class="list-item-content">
             <div class="status-icon complete">
@@ -558,7 +526,7 @@
             <span class="list-item-name">${pub.nombre}</span>
           </div>
           <div class="list-item-meta">
-            ${pub.horas > 0 ? `<div class="meta-item"><i data-lucide="clock" width="14" height="14"></i>${pub.horas}h</div>` : ''}
+            ${horas > 0 ? `<div class="meta-item"><i data-lucide="clock" width="14" height="14"></i>${horas}h</div>` : ''}
             ${pub.estudios > 0 ? `<div class="meta-item"><i data-lucide="book-open" width="14" height="14"></i>${pub.estudios}</div>` : ''}
             <div class="meta-item"><i data-lucide="check-circle" width="14" height="14"></i>Informó</div>
           </div>
@@ -566,9 +534,10 @@
         listCompletados.appendChild(item);
       });
       
+      // Renderizar lista de pendientes
       const listPendientes = document.getElementById('list-pendientes');
       listPendientes.innerHTML = '';
-      pendientes.forEach(pub => {
+      progreso.pendientes.forEach(pub => {
         const item = document.createElement('div');
         item.className = 'list-item';
         item.innerHTML = `
