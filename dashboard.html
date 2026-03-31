@@ -1,564 +1,141 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Superintendentes</title>
-  
-  <!-- Lucide Icons -->
+  <title>Secretaría Pro | Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
-  
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #0a0a0a;
-      min-height: 100vh;
-      padding: 20px;
-      color: #1e293b;
-    }
-    
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    
-    .header {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      padding: 32px;
-      border-radius: 24px;
-      margin-bottom: 24px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    }
-    
-    .header-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-    
-    .header-title {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-    
-    .header-icon {
-      width: 56px;
-      height: 56px;
-      background: linear-gradient(135deg, #5a398a 0%, #7b5aa6 100%);
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-    }
-    
-    h1 {
-      font-size: 28px;
-      font-weight: 700;
-      color: #0f172a;
-    }
-    
-    .month-badge {
-      background: linear-gradient(135deg, #5a398a 0%, #7b5aa6 100%);
-      color: white;
-      padding: 8px 20px;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: 600;
-    }
-    
-    .grupo-selector {
-      width: 100%;
-    }
-    
-    .grupo-selector label {
-      display: block;
-      font-size: 14px;
-      font-weight: 600;
-      color: #475569;
-      margin-bottom: 12px;
-    }
-    
-    select {
-      width: 100%;
-      padding: 16px 20px;
-      border: 2px solid #e2e8f0;
-      border-radius: 16px;
-      font-size: 16px;
-      font-weight: 500;
-      background: white;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    
-    select:focus {
-      outline: none;
-      border-color: #5a398a;
-      box-shadow: 0 0 0 4px rgba(90, 57, 138, 0.1);
-    }
-    
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 20px;
-      margin-bottom: 24px;
-    }
-    
-    .stat-card {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      padding: 24px;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      transition: transform 0.2s;
-    }
-    
-    .stat-card:hover {
-      transform: translateY(-4px);
-    }
-    
-    .stat-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-    
-    .stat-label {
-      font-size: 14px;
-      font-weight: 600;
-      color: #64748b;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    
-    .stat-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .stat-icon.green {
-      background: linear-gradient(135deg, #059669 0%, #10b981 100%);
-      color: white;
-    }
-    
-    .stat-icon.purple {
-      background: linear-gradient(135deg, #5a398a 0%, #7b5aa6 100%);
-      color: white;
-    }
-    
-    .stat-icon.blue {
-      background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
-      color: white;
-    }
-    
-    .stat-value {
-      font-size: 36px;
-      font-weight: 700;
-      color: #0f172a;
-      margin-bottom: 4px;
-    }
-    
-    .stat-subtext {
-      font-size: 13px;
-      color: #64748b;
-    }
-    
-    .progress-bar {
-      width: 100%;
-      height: 8px;
-      background: #e2e8f0;
-      border-radius: 8px;
-      overflow: hidden;
-      margin-top: 12px;
-    }
-    
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #059669 0%, #10b981 100%);
-      border-radius: 8px;
-      transition: width 0.5s ease;
-    }
-    
-    .section {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      padding: 28px;
-      margin-bottom: 24px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    }
-    
-    .section-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 20px;
-      padding-bottom: 16px;
-      border-bottom: 2px solid #f1f5f9;
-    }
-    
-    .section-title {
-      font-size: 20px;
-      font-weight: 700;
-      color: #0f172a;
-    }
-    
-    .count-badge {
-      background: #f1f5f9;
-      color: #475569;
-      padding: 4px 12px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 600;
-    }
-    
-    .list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    
-    .list-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 20px;
-      background: #f8fafc;
-      border-radius: 12px;
-      transition: all 0.2s;
-    }
-    
-    .list-item:hover {
-      background: #f1f5f9;
-      transform: translateX(4px);
-    }
-    
-    .list-item-content {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    
-    .status-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .status-icon.complete {
-      background: #d1fae5;
-      color: #059669;
-    }
-    
-    .status-icon.pending {
-      background: #fef3c7;
-      color: #f59e0b;
-    }
-    
-    .list-item-name {
-      font-size: 16px;
-      font-weight: 600;
-      color: #1e293b;
-    }
-    
-    .list-item-meta {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      font-size: 14px;
-      color: #64748b;
-    }
-    
-    .meta-item {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    
-    .loading {
-      text-align: center;
-      padding: 60px 20px;
-      color: white;
-      font-size: 18px;
-    }
-    
-    .loading-spinner {
-      animation: spin 1s linear infinite;
-      margin: 0 auto 16px;
-    }
-    
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-    
-    .hidden {
-      display: none;
-    }
-    
-    .empty-state {
-      text-align: center;
-      padding: 60px 20px;
-      color: #94a3b8;
-    }
-    
-    .empty-icon {
-      width: 80px;
-      height: 80px;
-      background: #f1f5f9;
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 20px;
-      color: #cbd5e1;
-    }
-    
-    @media (max-width: 768px) {
-      body {
-        padding: 12px;
-      }
-      
-      .header {
-        padding: 24px;
-      }
-      
-      h1 {
-        font-size: 24px;
-      }
-      
-      .stats-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .section {
-        padding: 20px;
-      }
-    }
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #050505; }
+    .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); }
   </style>
 </head>
-<body>
-  <div class="container">
-    <!-- Header -->
-    <div class="header">
-      <div class="header-top">
-        <div class="header-title">
-          <div class="header-icon">
-            <i data-lucide="bar-chart-3" width="28" height="28"></i>
-          </div>
-          <div>
-            <h1>Dashboard Superintendentes</h1>
-            <div class="month-badge" id="mes-actual">Marzo 2026</div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="grupo-selector">
-        <label>Selecciona tu grupo</label>
-        <select id="select-grupo">
-          <option value="">Selecciona un grupo...</option>
-          <option value="1">Grupo 1</option>
-          <option value="2">Grupo 2</option>
-          <option value="3">Grupo 3</option>
-          <option value="4">Grupo 4</option>
-          <option value="5">Grupo 5</option>
-          <option value="6">Grupo 6</option>
-          <option value="7">Grupo 7</option>
-        </select>
-      </div>
-    </div>
+<body class="text-slate-200 p-4 pb-20">
+
+  <div class="max-w-md mx-auto space-y-6">
     
-    <!-- Loading State -->
-    <div id="loading" class="loading hidden">
-      <div class="loading-spinner">
-        <i data-lucide="loader-2" width="48" height="48"></i>
+    <header class="flex items-center justify-between pt-4">
+      <div>
+        <h1 class="text-2xl font-extrabold tracking-tight text-white">Secretaría <span class="text-purple-500">Pro</span></h1>
+        <p class="text-slate-500 text-sm font-semibold uppercase tracking-widest" id="mes-label">Marzo 2026</p>
       </div>
-      <p>Cargando datos del grupo...</p>
-    </div>
-    
-    <!-- Dashboard Content -->
-    <div id="dashboard-content" class="hidden">
-      <!-- Stats Grid -->
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-header">
-            <span class="stat-label">Progreso</span>
-            <div class="stat-icon green">
-              <i data-lucide="trending-up" width="20" height="20"></i>
-            </div>
-          </div>
-          <div class="stat-value" id="stat-progreso">0%</div>
-          <div class="stat-subtext"><span id="stat-informados">0</span> de <span id="stat-total">0</span> han informado</div>
-          <div class="progress-bar">
-            <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
-          </div>
-        </div>
-        
-        <div class="stat-card">
-          <div class="stat-header">
-            <span class="stat-label">Total Horas</span>
-            <div class="stat-icon purple">
-              <i data-lucide="clock" width="20" height="20"></i>
-            </div>
-          </div>
-          <div class="stat-value" id="stat-horas">0</div>
-          <div class="stat-subtext">Precursores del grupo</div>
-        </div>
-        
-        <div class="stat-card">
-          <div class="stat-header">
-            <span class="stat-label">Estudios</span>
-            <div class="stat-icon blue">
-              <i data-lucide="book-open" width="20" height="20"></i>
-            </div>
-          </div>
-          <div class="stat-value" id="stat-estudios">0</div>
-          <div class="stat-subtext">Total del grupo</div>
-        </div>
+      <div class="h-12 w-12 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-purple-500/20">
+        <i data-lucide="layout-grid" class="text-white"></i>
       </div>
-      
-      <!-- Completados -->
-      <div class="section">
-        <div class="section-header">
-          <i data-lucide="check-circle" width="24" height="24" style="color: #059669;"></i>
-          <span class="section-title">Han Informado</span>
-          <span class="count-badge" id="count-completados">0</span>
-        </div>
-        <div class="list" id="list-completados"></div>
-      </div>
-      
-      <!-- Pendientes -->
-      <div class="section">
-        <div class="section-header">
-          <i data-lucide="alert-circle" width="24" height="24" style="color: #f59e0b;"></i>
-          <span class="section-title">Pendientes</span>
-          <span class="count-badge" id="count-pendientes">0</span>
-        </div>
-        <div class="list" id="list-pendientes"></div>
+    </header>
+
+    <div class="relative">
+      <select id="grupo-select" class="w-full bg-slate-900 border-2 border-slate-800 text-white p-5 rounded-2xl appearance-none focus:border-purple-500 outline-none transition-all font-bold text-lg shadow-xl">
+        <option value="">Seleccionar Grupo</option>
+        <option value="1">Grupo 1</option><option value="2">Grupo 2</option>
+        <option value="3">Grupo 3</option><option value="4">Grupo 4</option>
+        <option value="5">Grupo 5</option><option value="6">Grupo 6</option>
+        <option value="7">Grupo 7</option>
+      </select>
+      <div class="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">
+        <i data-lucide="chevron-down"></i>
       </div>
     </div>
+
+    <div id="loading" class="hidden flex flex-col items-center py-12 space-y-4">
+      <div class="h-10 w-10 border-4 border-purple-500/20 border-t-purple-500 rounded-full animate-spin"></div>
+      <p class="text-slate-400 font-medium animate-pulse">Sincronizando datos...</p>
+    </div>
+
+    <main id="main-content" class="hidden space-y-4">
+      
+      <div class="glass p-6 rounded-[2.5rem] relative overflow-hidden">
+        <div class="relative z-10">
+          <p class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Progreso General</p>
+          <div class="flex items-end gap-2">
+            <span class="text-6xl font-black text-white" id="val-progreso">0%</span>
+          </div>
+          <div class="w-full h-3 bg-slate-800 rounded-full mt-4 overflow-hidden">
+            <div id="bar-progreso" class="h-full bg-gradient-to-r from-purple-600 to-emerald-500 transition-all duration-1000" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div class="glass p-5 rounded-[2rem]">
+          <p class="text-slate-500 text-[10px] font-bold uppercase mb-1">Horas</p>
+          <p class="text-3xl font-bold text-white" id="val-horas">0</p>
+        </div>
+        <div class="glass p-5 rounded-[2rem]">
+          <p class="text-slate-500 text-[10px] font-bold uppercase mb-1">Estudios</p>
+          <p class="text-3xl font-bold text-white" id="val-estudios">0</p>
+        </div>
+      </div>
+
+      <section class="space-y-4">
+        <div class="flex items-center justify-between px-2">
+          <h2 class="font-bold text-slate-300 flex items-center gap-2">
+            <i data-lucide="check-circle" class="text-emerald-500 w-5"></i> Informes
+          </h2>
+          <span id="count-c" class="bg-emerald-500/10 text-emerald-500 text-xs font-bold px-3 py-1 rounded-full">0</span>
+        </div>
+        <div id="list-c" class="space-y-2"></div>
+
+        <div class="flex items-center justify-between px-2 pt-4">
+          <h2 class="font-bold text-slate-300 flex items-center gap-2">
+            <i data-lucide="clock" class="text-orange-500 w-5"></i> Pendientes
+          </h2>
+          <span id="count-p" class="bg-orange-500/10 text-orange-500 text-xs font-bold px-3 py-1 rounded-full">0</span>
+        </div>
+        <div id="list-p" class="space-y-2"></div>
+      </section>
+
+    </main>
   </div>
-  
+
   <script>
     lucide.createIcons();
-    
-    let grupoSeleccionado = null;
-    
-    document.getElementById('select-grupo').addEventListener('change', function(e) {
-      if (e.target.value) {
-        grupoSeleccionado = parseInt(e.target.value);
-        cargarDashboard();
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxTOM6Eo5yYGVtJqnBhqkjAfAZ-i3_KttrLCtMmAQa2CrSyZse6PTuHOoTMYQXTxinG4g/exec";
+
+    document.getElementById('grupo-select').addEventListener('change', async (e) => {
+      if (!e.target.value) return;
+      
+      const loading = document.getElementById('loading');
+      const content = document.getElementById('main-content');
+      
+      loading.classList.remove('hidden');
+      content.classList.add('hidden');
+
+      try {
+        const response = await fetch(`${SCRIPT_URL}?action=getProgresoGrupo&grupo=${e.target.value}&mes=mar`);
+        const result = await response.json();
+        const data = result.data;
+
+        document.getElementById('val-progreso').innerText = data.porcentaje + "%";
+        document.getElementById('bar-progreso').style.width = data.porcentaje + "%";
+        document.getElementById('val-horas').innerText = data.totalHoras;
+        document.getElementById('val-estudios').innerText = data.totalEstudios;
+        document.getElementById('count-c').innerText = data.completados.length;
+        document.getElementById('count-p').innerText = data.pendientes.length;
+
+        document.getElementById('list-c').innerHTML = data.completados.map(u => `
+          <div class="glass p-4 rounded-2xl flex justify-between items-center">
+            <span class="font-semibold text-white">${u.nombre}</span>
+            <span class="text-xs font-bold text-emerald-500">${u.participacion}h</span>
+          </div>
+        `).join('');
+
+        document.getElementById('list-p').innerHTML = data.pendientes.map(u => `
+          <div class="glass p-4 rounded-2xl flex justify-between items-center border-l-4 border-orange-500/50">
+            <span class="font-semibold text-slate-300">${u.nombre}</span>
+            <span class="text-[10px] font-bold text-slate-500 uppercase">${u.categoria}</span>
+          </div>
+        `).join('');
+
+        lucide.createIcons();
+        loading.classList.add('hidden');
+        content.classList.remove('hidden');
+      } catch (err) {
+        alert("Error de conexión. Verifica que el Script esté desplegado como 'Cualquiera'.");
       }
     });
-    
-    async function cargarDashboard() {
-      document.getElementById('loading').classList.remove('hidden');
-      document.getElementById('dashboard-content').classList.add('hidden');
-      
-      try {
-        // Detectar mes a reportar (mes anterior)
-        const mesActual = new Date();
-        const mesReportar = new Date(mesActual.getFullYear(), mesActual.getMonth() - 1);
-        const mesesAbrev = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sept', 'oct', 'nov', 'dic'];
-        const mesAbreviado = mesesAbrev[mesReportar.getMonth()];
-        
-        // Obtener progreso del grupo
-        const url = `https://script.google.com/macros/s/AKfycbz2-E2fKT0sy56ybi4flBg1kKFl-nIUIZovtWl-a0sNDu6Ux_NynRo7Fg7YcqBme624UQ/exec?action=getProgresoGrupo&grupo=${grupoSeleccionado}&mes=${mesAbreviado}`;
-        const res = await fetch(url);
-        const data = await res.json();
-        
-        if (data.success) {
-          mostrarDashboard(data.data);
-        } else {
-          alert('Error al cargar datos');
-        }
-        
-      } catch (error) {
-        console.error('Error:', error);
-        alert('Error al cargar datos del dashboard');
-      }
-    }
-    
-    function mostrarDashboard(progreso) {
-      // Actualizar stats
-      document.getElementById('stat-progreso').textContent = progreso.porcentaje + '%';
-      document.getElementById('stat-informados').textContent = progreso.informaron;
-      document.getElementById('stat-total').textContent = progreso.total;
-      document.getElementById('stat-horas').textContent = progreso.totalHoras;
-      document.getElementById('stat-estudios').textContent = progreso.totalEstudios;
-      document.getElementById('progress-fill').style.width = progreso.porcentaje + '%';
-      
-      // Actualizar counts
-      document.getElementById('count-completados').textContent = progreso.completados.length;
-      document.getElementById('count-pendientes').textContent = progreso.pendientes.length;
-      
-      // Renderizar lista de completados
-      const listCompletados = document.getElementById('list-completados');
-      listCompletados.innerHTML = '';
-      progreso.completados.forEach(pub => {
-        const item = document.createElement('div');
-        item.className = 'list-item';
-        const horas = typeof pub.participacion === 'number' ? pub.participacion : 0;
-        item.innerHTML = `
-          <div class="list-item-content">
-            <div class="status-icon complete">
-              <i data-lucide="check" width="16" height="16"></i>
-            </div>
-            <span class="list-item-name">${pub.nombre}</span>
-          </div>
-          <div class="list-item-meta">
-            ${horas > 0 ? `<div class="meta-item"><i data-lucide="clock" width="14" height="14"></i>${horas}h</div>` : ''}
-            ${pub.estudios > 0 ? `<div class="meta-item"><i data-lucide="book-open" width="14" height="14"></i>${pub.estudios}</div>` : ''}
-            <div class="meta-item"><i data-lucide="check-circle" width="14" height="14"></i>Informó</div>
-          </div>
-        `;
-        listCompletados.appendChild(item);
-      });
-      
-      // Renderizar lista de pendientes
-      const listPendientes = document.getElementById('list-pendientes');
-      listPendientes.innerHTML = '';
-      progreso.pendientes.forEach(pub => {
-        const item = document.createElement('div');
-        item.className = 'list-item';
-        item.innerHTML = `
-          <div class="list-item-content">
-            <div class="status-icon pending">
-              <i data-lucide="clock" width="16" height="16"></i>
-            </div>
-            <span class="list-item-name">${pub.nombre}</span>
-          </div>
-          <div class="list-item-meta">
-            <div class="meta-item"><i data-lucide="alert-circle" width="14" height="14"></i>Pendiente</div>
-          </div>
-        `;
-        listPendientes.appendChild(item);
-      });
-      
-      lucide.createIcons();
-      
-      document.getElementById('loading').classList.add('hidden');
-      document.getElementById('dashboard-content').classList.remove('hidden');
-    }
   </script>
 </body>
 </html>
