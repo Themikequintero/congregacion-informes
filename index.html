@@ -1,523 +1,165 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <base target="_top">
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="mobile-web-app-capable" content="yes">
-  <title>Informe de Predicación</title>
-  
-  <!-- Lucide Icons -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Informe de Actividad</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
-  
   <style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #f8fafc;
-    color: #1e293b;
-    padding: 8px;
-    min-height: 100vh;
-    -webkit-text-size-adjust: 100%;
-  }
-  
-  .container {
-  margin: 0 auto;
-  width: 100%;
-}
-  
-  .header {
-    background: linear-gradient(135deg, #5a398a 0%, #7b5aa6 100%);
-    color: white;
-    padding: 32px 24px;
-    border-radius: 16px;
-    text-align: center;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 6px rgba(90, 57, 138, 0.1);
-  }
-  
-  .header-icon {
-    margin-bottom: 12px;
-  }
-  
-  .header h1 {
-    font-size: 24px;
-    font-weight: 600;
-    margin-bottom: 6px;
-  }
-  
-  .header p {
-    font-size: 16px;
-    opacity: 0.9;
-  }
-  
-  .card {
-    background: white;
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    margin-bottom: 16px;
-  }
-  
-  .form-group {
-    margin-bottom: 24px;
-  }
-  
-  label {
-    display: block;
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 10px;
-    color: #334155;
-  }
-  
-  select, input[type="text"], input[type="number"] {
-    width: 100%;
-    padding: 16px;
-    border: 2px solid #e2e8f0;
-    border-radius: 12px;
-    font-size: 17px;
-    transition: all 0.2s;
-    -webkit-appearance: none;
-  }
-  
-  select:focus, input:focus {
-    outline: none;
-    border-color: #5a398a;
-    box-shadow: 0 0 0 3px rgba(90, 57, 138, 0.1);
-  }
-  
-  .search-box {
-    position: relative;
-  }
-  
-  .search-icon {
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #94a3b8;
-    pointer-events: none;
-  }
-  
-  .search-box input {
-    padding-left: 52px;
-  }
-  
-  .publicador-list {
-    max-height: 400px;
-    overflow-y: auto;
-    margin-top: 16px;
-  }
-  
-  .publicador-item {
-    padding: 20px;
-    border: 2px solid #e2e8f0;
-    border-radius: 12px;
-    margin-bottom: 12px;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 17px;
-  }
-  
-  .publicador-item:active {
-    transform: scale(0.98);
-    border-color: #5a398a;
-    background: #f8f5fc;
-  }
-  
-  .btn {
-    width: 100%;
-    padding: 18px;
-    border: none;
-    border-radius: 12px;
-    font-size: 18px;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    transition: all 0.2s;
-  }
-  
-  .btn-primary {
-    background: #059669;
-    color: white;
-  }
-  
-  .btn-primary:active {
-    transform: scale(0.98);
-    background: #047857;
-  }
-  
-  .hidden {
-    display: none;
-  }
-  
-  .loading {
-    text-align: center;
-    padding: 40px;
-    color: #64748b;
-  }
-  
-  .info-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 16px;
-    background: #f1f5f9;
-    border-radius: 8px;
-    font-size: 15px;
-    color: #5a398a;
-    font-weight: 500;
-  }
-  
-  input[type="checkbox"], input[type="radio"] {
-    width: 20px !important;
-    height: 20px;
-    cursor: pointer;
-  }
-</style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;800&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #000; color: #cbd5e1; }
+    .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); }
+    .input-field { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 1.2rem; border-radius: 1.2rem; width: 100%; text-align: center; font-size: 1.2rem; outline: none; }
+    .btn-grad { background: linear-gradient(135deg, #5a398a 0%, #7b5aa6 100%); color: white; font-weight: 800; padding: 1.2rem; border-radius: 1.2rem; width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+    .btn-active-si { border: 2px solid #7b5aa6; background: rgba(123, 90, 166, 0.2); }
+    .btn-active-no { border: 2px solid #ef4444; background: rgba(239, 68, 68, 0.1); }
+  </style>
 </head>
-<body>
-  <div class="container">
-    <!-- Header -->
-    <div class="header">
-      <div class="header-icon">
-        <i data-lucide="clipboard" width="32" height="32"></i>
-      </div>
-      <h1>Informe de Predicación</h1>
-      <p id="mes-actual">Marzo 2026</p>
-    </div>
+<body class="p-4 flex flex-col items-center min-h-screen">
+  <div class="w-full max-w-md space-y-6 mt-4">
     
-    <!-- Paso 1: Seleccionar Grupo -->
-    <div id="paso-grupo" class="card">
-      <div class="form-group">
-        <label>Tu grupo</label>
-        <select id="select-grupo">
-          <option value="">Selecciona tu grupo...</option>
-          <option value="1">Grupo 1</option>
-          <option value="2">Grupo 2</option>
-          <option value="3">Grupo 3</option>
-          <option value="4">Grupo 4</option>
-          <option value="5">Grupo 5</option>
-          <option value="6">Grupo 6</option>
-          <option value="7">Grupo 7</option>
-        </select>
+    <header class="glass p-8 rounded-[2.5rem] text-center space-y-3">
+      <div class="h-14 w-14 bg-purple-600 rounded-2xl flex items-center justify-center mx-auto shadow-lg shadow-purple-500/20">
+        <i data-lucide="send" class="text-white"></i>
+      </div>
+      <h1 class="text-2xl font-extrabold text-white tracking-tight">Enviar Informe</h1>
+      <p id="label-mes" class="text-purple-400 font-bold text-xs uppercase tracking-widest"></p>
+    </header>
+
+    <div id="step-1" class="glass p-6 rounded-[2rem] space-y-4 text-center">
+      <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">¿Cuál es tu grupo?</p>
+      <div class="grid grid-cols-4 gap-2">
+        <button onclick="elegirGrupo(1)" class="glass p-4 rounded-xl font-black text-xl">1</button>
+        <button onclick="elegirGrupo(2)" class="glass p-4 rounded-xl font-black text-xl">2</button>
+        <button onclick="elegirGrupo(3)" class="glass p-4 rounded-xl font-black text-xl">3</button>
+        <button onclick="elegirGrupo(4)" class="glass p-4 rounded-xl font-black text-xl">4</button>
+        <button onclick="elegirGrupo(5)" class="glass p-4 rounded-xl font-black text-xl">5</button>
+        <button onclick="elegirGrupo(6)" class="glass p-4 rounded-xl font-black text-xl">6</button>
+        <button onclick="elegirGrupo(7)" class="glass p-4 rounded-xl font-black text-xl">7</button>
       </div>
     </div>
-    
-    <!-- Paso 2: Buscar Nombre -->
-    <div id="paso-nombre" class="card hidden">
-      <div class="form-group">
-        <label>Busca tu nombre</label>
-        <div class="search-box">
-          <i data-lucide="search" class="search-icon" width="20" height="20"></i>
-          <input type="text" id="search-input" placeholder="Escribe tu nombre...">
-        </div>
-        <div id="publicador-list" class="publicador-list"></div>
-      </div>
-      <div id="loading" class="loading hidden">
-        <i data-lucide="loader-2" class="animate-spin" width="24" height="24"></i>
-        <p>Cargando...</p>
-      </div>
+
+    <div id="step-2" class="hidden glass p-6 rounded-[2rem] space-y-4">
+      <input type="text" id="search-input" placeholder="Tu nombre..." class="input-field font-bold">
+      <div id="list-container" class="max-h-72 overflow-y-auto space-y-2"></div>
     </div>
-    
-    <!-- Paso 3: Formulario de Informe -->
-    <div id="paso-informe" class="card hidden">
-      <div style="margin-bottom: 20px;">
-        <h3 id="nombre-seleccionado" style="font-size: 18px; margin-bottom: 8px;"></h3>
-        <span id="categoria-badge" class="info-badge"></span>
+
+    <div id="step-3" class="hidden glass p-8 rounded-[2.5rem] space-y-6">
+      <div class="text-center border-b border-white/5 pb-4">
+        <h2 id="display-nombre" class="text-xl font-extrabold text-white"></h2>
+        <p id="display-categoria" class="text-[10px] text-purple-400 font-bold uppercase mt-1"></p>
       </div>
-      
-      <div id="form-publicador" class="hidden">
-        <div class="form-group">
-          <label style="margin-bottom: 12px;">¿Participaste en el ministerio?</label>
-          <div style="display: flex; flex-direction: column; gap: 12px;">
-            <label style="display: flex; align-items: center; font-weight: 400;">
-              <input type="radio" name="participo" value="si" style="width: 20px; height: 20px; margin-right: 12px;">
-              Sí, participé
-            </label>
-            <label style="display: flex; align-items: center; font-weight: 400;">
-              <input type="radio" name="participo" value="no" style="width: 20px; height: 20px; margin-right: 12px;">
-              No participé
-            </label>
-          </div>
+
+      <div id="form-pub" class="hidden space-y-6 text-center">
+        <p class="text-[10px] font-bold text-slate-500 uppercase">¿Participaste en la predicación?</p>
+        <div class="flex gap-4">
+          <button onclick="setParticipo(true)" id="btn-si" class="flex-1 glass p-5 rounded-2xl font-bold text-lg">SÍ</button>
+          <button onclick="setParticipo(false)" id="btn-no" class="flex-1 glass p-5 rounded-2xl font-bold text-lg">NO</button>
         </div>
-        <div class="form-group">
-          <label>Estudios bíblicos</label>
-          <input type="number" id="input-estudios" min="0" value="0">
+        <div class="space-y-2">
+          <label class="text-[10px] font-bold text-slate-500 uppercase">Cursos Bíblicos</label>
+          <input type="number" id="est-pub" class="input-field text-3xl font-black" value="0">
         </div>
       </div>
-      
-      <div id="form-precursor" class="hidden">
-        <div class="form-group">
-          <label>Horas de predicación</label>
-          <input type="number" id="input-horas" min="0" placeholder="0">
+
+      <div id="form-pre" class="hidden space-y-6 text-center">
+        <div class="space-y-2">
+          <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Horas</label>
+          <input type="number" id="horas-pre" class="input-field text-5xl font-black" placeholder="0">
         </div>
-        <div class="form-group">
-          <label>Estudios bíblicos</label>
-          <input type="number" id="input-estudios-prec" min="0" value="0">
+        <div class="space-y-2">
+          <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Cursos Bíblicos</label>
+          <input type="number" id="est-pre" class="input-field text-3xl font-black" value="0">
         </div>
       </div>
-      
-      <button class="btn btn-primary" onclick="enviarInforme()">
-        <i data-lucide="check" width="20" height="20"></i>
-        Enviar Informe
-      </button>
+
+      <button onclick="enviar()" id="btn-enviar" class="btn-grad text-lg">ENVIAR INFORME</button>
     </div>
   </div>
-  
+
   <script>
-    // Inicializar Lucide icons
     lucide.createIcons();
-    
-    // Verificar si el mes está cerrado (después del día 15)
-    function verificarMesCerrado() {
-      const hoy = new Date();
-      const dia = hoy.getDate();
-      
-      if (dia > 31) {
-        document.body.innerHTML = `
-          <div style="display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #f8fafc; color: #1e293b; text-align: center; padding: 20px;">
-            <div>
-              <div style="width: 80px; height: 80px; background: rgba(239, 68, 68, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
-                <i data-lucide="lock" width="40" height="40" style="color: #ef4444;"></i>
-              </div>
-              <h1 style="font-size: 28px; margin-bottom: 12px;">Mes Cerrado</h1>
-              <p style="color: #64748b; font-size: 16px; max-width: 400px; margin: 0 auto;">
-                El periodo para enviar informes cerró el día 15 del mes.<br>
-                Para reportar tu actividad, contacta al secretario de la congregación.
-              </p>
-            </div>
-          </div>
-        `;
-        lucide.createIcons();
-        return true;
-      }
-      return false;
+    // PEGA AQUÍ TU URL DE GOOGLE SCRIPT
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxTOM6Eo5yYGVtJqnBhqkjAfAZ-i3_KttrLCtMmAQa2CrSyZse6PTuHOoTMYQXTxinG4g/exec";
+
+    const mesesAbrev = ['ene','feb','mar','abr','may','jun','jul','ago','sept','oct','nov','dic'];
+    const hoy = new Date();
+    const fReporte = new Date(hoy.getFullYear(), hoy.getMonth() - 1, 1);
+    const mAbrev = mesesAbrev[fReporte.getMonth()];
+    const mNombre = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'][fReporte.getMonth()];
+    document.getElementById('label-mes').textContent = "MES DE " + mNombre.toUpperCase();
+
+    let pubs = [];
+    let seleccionado = null;
+    let participoVal = null;
+
+    async function elegirGrupo(g) {
+      document.getElementById('step-2').classList.remove('hidden');
+      document.getElementById('list-container').innerHTML = '<p class="text-center py-10 text-purple-400 font-bold animate-pulse text-xs">CARGANDO LISTA...</p>';
+      const res = await fetch(`${SCRIPT_URL}?action=getProgresoGrupo&grupo=${g}&mes=${mAbrev}`);
+      const json = await res.json();
+      pubs = [...json.data.completados, ...json.data.pendientes];
+      renderList(pubs);
     }
-    
-    // Ejecutar verificación
-    if (verificarMesCerrado()) {
-      // Mes cerrado, no ejecutar nada más
-    } else {
-    
-    // Estado
-    let grupoSeleccionado = null;
-    let publicadores = [];
-    let publicadorSeleccionado = null;
-    
-    // Event Listeners
-    document.getElementById('select-grupo').addEventListener('change', function(e) {
-      if (e.target.value) {
-        grupoSeleccionado = parseInt(e.target.value);
-        cargarPublicadores();
-      }
-    });
-    
-    document.getElementById('search-input').addEventListener('input', function(e) {
-      filtrarPublicadores(e.target.value);
-    });
-    
-    // Cargar publicadores del grupo
-    function cargarPublicadores() {
-      document.getElementById('loading').classList.remove('hidden');
-      document.getElementById('paso-nombre').classList.remove('hidden');
-      
-      const url = 'https://script.google.com/macros/s/AKfycbz2-E2fKT0sy56ybi4flBg1kKFl-nIUIZovtWl-a0sNDu6Ux_NynRo7Fg7YcqBme624UQ/exec?action=getPublicadores&grupo=' + grupoSeleccionado;
-      
-      fetch(url)
-        .then(res => res.json())
-        .then(data => {
-          publicadores = data.data;
-          mostrarPublicadores(publicadores);
-          document.getElementById('loading').classList.add('hidden');
-        })
-        .catch(err => {
-          alert('Error al cargar publicadores');
-          console.error(err);
-        });
-    }
-    
-    // Mostrar lista de publicadores
-    function mostrarPublicadores(lista) {
-      const container = document.getElementById('publicador-list');
-      container.innerHTML = '';
-      
-      lista.forEach(pub => {
-        const item = document.createElement('div');
-        item.className = 'publicador-item';
-        item.innerHTML = `
-          <span>${pub.nombre}</span>
-          <i data-lucide="chevron-right" width="20" height="20"></i>
-        `;
-        item.onclick = () => seleccionarPublicador(pub);
-        container.appendChild(item);
-      });
-      
+
+    function renderList(list) {
+      document.getElementById('list-container').innerHTML = list.map(u => `
+        <div class="glass p-4 rounded-xl flex justify-between items-center mb-2" onclick="selectPub('${u.nombre}', '${u.categoria}')">
+          <span class="font-bold text-white text-sm">${u.nombre}</span>
+          <i data-lucide="chevron-right" class="w-4 text-slate-500"></i>
+        </div>`).join('');
       lucide.createIcons();
     }
-    
-    // Filtrar publicadores
-    function filtrarPublicadores(termino) {
-      const filtrados = publicadores.filter(pub => 
-        pub.nombre.toLowerCase().includes(termino.toLowerCase())
-      );
-      mostrarPublicadores(filtrados);
-    }
-    
-    // Seleccionar publicador
-async function seleccionarPublicador(pub) {
-  publicadorSeleccionado = pub;
-  
-  // Detectar mes a reportar
-  const mesActual = new Date();
-  const mesReportar = new Date(mesActual.getFullYear(), mesActual.getMonth() - 1);
-  const mesesAbrev = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sept', 'oct', 'nov', 'dic'];
-  const mesAbreviado = mesesAbrev[mesReportar.getMonth()];
-  
-  // Verificar si ya informó
-  try {
-    const response = await fetch(`https://script.google.com/macros/s/AKfycbz2-E2fKT0sy56ybi4flBg1kKFl-nIUIZovtWl-a0sNDu6Ux_NynRo7Fg7YcqBme624UQ/exec?action=getInforme&nombre=${encodeURIComponent(pub.nombre)}&mes=${mesAbreviado}`);
-    const data = await response.json();
-    
-    if (data.success && data.data.yaInformo) {
-      // Ya informó - mostrar resumen
-      mostrarInformeYaEnviado(pub, data.data, mesAbreviado);
-      return;
-    }
-  } catch (error) {
-    console.error('Error verificando informe:', error);
-  }
-  
-  // No ha informado - mostrar formulario
-  document.getElementById('paso-informe').classList.remove('hidden');
-  document.getElementById('nombre-seleccionado').textContent = pub.nombre;
-  
-  const esPrecursor = pub.categoria.includes('Precursor');
-  
-  document.getElementById('categoria-badge').innerHTML = `
-    <i data-lucide="${esPrecursor ? 'award' : 'user'}" width="16" height="16"></i>
-    ${pub.categoria}
-  `;
-  
-  if (esPrecursor) {
-    document.getElementById('form-precursor').classList.remove('hidden');
-    document.getElementById('form-publicador').classList.add('hidden');
-  } else {
-    document.getElementById('form-publicador').classList.remove('hidden');
-    document.getElementById('form-precursor').classList.add('hidden');
-  }
-  
-  lucide.createIcons();
-  
-  // Scroll al formulario
-  document.getElementById('paso-informe').scrollIntoView({ behavior: 'smooth' });
-}
 
-// Mostrar que ya informó
-function mostrarInformeYaEnviado(pub, informe, mes) {
-  const mesesNombres = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-  const mesIndex = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sept', 'oct', 'nov', 'dic'].indexOf(mes);
-  const mesNombre = mesesNombres[mesIndex];
-  
-  const esPrecursor = pub.categoria.includes('Precursor');
-  
-  document.getElementById('paso-informe').innerHTML = `
-    <div style="text-align: center; padding: 20px;">
-      <div style="width: 80px; height: 80px; background: rgba(5, 150, 105, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
-        <i data-lucide="check-circle" width="40" height="40" style="color: #059669;"></i>
-      </div>
-      <h3 style="font-size: 20px; margin-bottom: 8px;">${pub.nombre}</h3>
-      <p style="color: #64748b; margin-bottom: 24px;">Ya enviaste tu informe de ${mesNombre}</p>
-      
-      <div style="background: #f8fafc; padding: 20px; border-radius: 12px; text-align: left; margin-bottom: 16px;">
-        ${esPrecursor ? `
-          <div style="margin-bottom: 12px;">
-            <span style="color: #64748b; font-size: 14px;">Horas:</span>
-            <span style="color: #0f172a; font-size: 18px; font-weight: 600; margin-left: 8px;">${informe.participacion}</span>
-          </div>
-        ` : `
-          <div style="margin-bottom: 12px;">
-            <span style="color: #64748b; font-size: 14px;">Participación:</span>
-            <span style="color: #0f172a; font-size: 18px; font-weight: 600; margin-left: 8px;">${informe.participacion === 'SI' ? 'Sí participé' : 'No participé'}</span>
-          </div>
-        `}
-        <div>
-          <span style="color: #64748b; font-size: 14px;">Estudios:</span>
-          <span style="color: #0f172a; font-size: 18px; font-weight: 600; margin-left: 8px;">${informe.estudios}</span>
-        </div>
-      </div>
-      
-      <p style="color: #64748b; font-size: 14px;">Si necesitas corregir tu informe, contacta al secretario de la congregación.</p>
-    </div>
-  `;
-  
-  document.getElementById('paso-informe').classList.remove('hidden');
-  lucide.createIcons();
-  document.getElementById('paso-informe').scrollIntoView({ behavior: 'smooth' });
-}
-  
-    
-   // Enviar informe
-function enviarInforme() {
-  const esPrecursor = publicadorSeleccionado.categoria.includes('Precursor');
-  
-  // Detectar mes a reportar
-  const mesActual = new Date();
-  const mesReportar = new Date(mesActual.getFullYear(), mesActual.getMonth() - 1);
-  const mesesAbrev = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sept', 'oct', 'nov', 'dic'];
-  const mesAbreviado = mesesAbrev[mesReportar.getMonth()];
-  
-  const datos = {
-    action: 'guardarInforme',
-    nombre: publicadorSeleccionado.nombre,
-    mes: mesAbreviado,
-    esPrecursor: esPrecursor
-  };
-  
-  if (esPrecursor) {
-    datos.horas = parseInt(document.getElementById('input-horas').value) || 0;
-    datos.estudios = parseInt(document.getElementById('input-estudios-prec').value) || 0;
-  } else {
-    const radioParticipo = document.querySelector('input[name="participo"]:checked');
-    datos.participo = radioParticipo ? radioParticipo.value === 'si' : false;
-    datos.estudios = parseInt(document.getElementById('input-estudios').value) || 0;
-  }
-  
-  // Enviar al backend
-  fetch('https://script.google.com/macros/s/AKfycbz2-E2fKT0sy56ybi4flBg1kKFl-nIUIZovtWl-a0sNDu6Ux_NynRo7Fg7YcqBme624UQ/exec', {
-    method: 'POST',
-    body: JSON.stringify(datos)
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (data.success) {
-      alert('¡Informe enviado exitosamente!');
-      location.reload();
-    } else if (data.yaInformo) {
-      // Ya informó - mostrar resumen
-      mostrarInformeYaEnviado(publicadorSeleccionado, data, mesAbreviado);
-    } else {
-      alert('Error: ' + data.error);
+    document.getElementById('search-input').addEventListener('input', (e) => {
+      const filtered = pubs.filter(u => u.nombre.toLowerCase().includes(e.target.value.toLowerCase()));
+      renderList(filtered);
+    });
+
+    function selectPub(nombre, cat) {
+      seleccionado = { nombre, categoria: cat };
+      document.getElementById('step-1').classList.add('hidden');
+      document.getElementById('step-2').classList.add('hidden');
+      document.getElementById('step-3').classList.remove('hidden');
+      document.getElementById('display-nombre').textContent = nombre;
+      document.getElementById('display-categoria').textContent = cat;
+      const esPre = cat.toLowerCase().includes('precursor');
+      document.getElementById('form-pre').classList.toggle('hidden', !esPre);
+      document.getElementById('form-pub').classList.toggle('hidden', esPre);
     }
-  })
-  .catch(err => {
-    alert('Error al enviar informe');
-    console.error(err);
-  });
-}
-      } // Cierre del else verificarMesCerrado
+
+    function setParticipo(val) {
+      participoVal = val;
+      document.getElementById('btn-si').className = val ? 'flex-1 glass p-5 rounded-2xl font-bold btn-active-si text-white' : 'flex-1 glass p-5 rounded-2xl font-bold';
+      document.getElementById('btn-no').className = !val ? 'flex-1 glass p-5 rounded-2xl font-bold btn-active-no text-white' : 'flex-1 glass p-5 rounded-2xl font-bold';
+    }
+
+    async function enviar() {
+      const btn = document.getElementById('btn-enviar');
+      btn.disabled = true; btn.textContent = "ENVIANDO...";
+      const esPre = seleccionado.categoria.toLowerCase().includes('precursor');
+      const datos = { action: 'guardarInforme', nombre: seleccionado.nombre, mes: mAbrev, esPrecursor: esPre };
+      
+      if (esPre) {
+        datos.horas = parseInt(document.getElementById('horas-pre').value) || 0;
+        datos.estudios = parseInt(document.getElementById('est-pre').value) || 0;
+      } else {
+        if (participoVal === null) { alert("Indica si participaste"); btn.disabled = false; btn.textContent = "ENVIAR INFORME"; return; }
+        datos.participo = participoVal;
+        datos.estudios = parseInt(document.getElementById('est-pub').value) || 0;
+      }
+
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify(datos)
+      });
+      
+      const res = await response.json();
+      if(res.success) {
+        document.body.innerHTML = '<div class="h-screen flex flex-col items-center justify-center p-8 text-center space-y-4"><h1 class="text-4xl font-black text-white leading-tight">INFORME ENVIADO</h1><p class="text-purple-400 font-bold text-lg">Gracias por tu actividad.</p><button onclick="location.reload()" class="mt-8 text-xs font-black text-slate-600 uppercase tracking-widest">Enviar otro</button></div>';
+      }
+    }
   </script>
 </body>
 </html>
