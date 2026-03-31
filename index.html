@@ -377,28 +377,96 @@
     }
     
     // Seleccionar publicador
-    function seleccionarPublicador(pub) {
-      publicadorSeleccionado = pub;
+async function seleccionarPublicador(pub) {
+  publicadorSeleccionado = pub;
+  
+  // Detectar mes a reportar
+  const mesActual = new Date();
+  const mesReportar = new Date(mesActual.getFullYear(), mesActual.getMonth() - 1);
+  const mesesAbrev = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sept', 'oct', 'nov', 'dic'];
+  const mesAbreviado = mesesAbrev[mesReportar.getMonth()];
+  
+  // Verificar si ya informó
+  try {
+    const response = await fetch(`https://script.google.com/macros/s/AKfycbz2-E2fKT0sy56ybi4flBg1kKFl-nIUIZovtWl-a0sNDu6Ux_NynRo7Fg7YcqBme624UQ/exec?action=getInforme&nombre=${encodeURIComponent(pub.nombre)}&mes=${mesAbreviado}`);
+    const data = await response.json();
+    
+    if (data.success && data.data.yaInformo) {
+      // Ya informó - mostrar resumen
+      mostrarInformeYaEnviado(pub, data.data, mesAbreviado);
+      return;
+    }
+  } catch (error) {
+    console.error('Error verificando informe:', error);
+  }
+  
+  // No ha informado - mostrar formulario
+  document.getElementById('paso-informe').classList.remove('hidden');
+  document.getElementById('nombre-seleccionado').textContent = pub.nombre;
+  
+  const esPrecursor = pub.categoria.includes('Precursor');
+  
+  document.getElementById('categoria-badge').innerHTML = `
+    <i data-lucide="${esPrecursor ? 'award' : 'user'}" width="16" height="16"></i>
+    ${pub.categoria}
+  `;
+  
+  if (esPrecursor) {
+    document.getElementById('form-precursor').classList.remove('hidden');
+    document.getElementById('form-publicador').classList.add('hidden');
+  } else {
+    document.getElementById('form-publicador').classList.remove('hidden');
+    document.getElementById('form-precursor').classList.add('hidden');
+  }
+  
+  lucide.createIcons();
+  
+  // Scroll al formulario
+  document.getElementById('paso-informe').scrollIntoView({ behavior: 'smooth' });
+}
+
+// Mostrar que ya informó
+function mostrarInformeYaEnviado(pub, informe, mes) {
+  const mesesNombres = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+  const mesIndex = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sept', 'oct', 'nov', 'dic'].indexOf(mes);
+  const mesNombre = mesesNombres[mesIndex];
+  
+  const esPrecursor = pub.categoria.includes('Precursor');
+  
+  document.getElementById('paso-informe').innerHTML = `
+    <div style="text-align: center; padding: 20px;">
+      <div style="width: 80px; height: 80px; background: rgba(5, 150, 105, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
+        <i data-lucide="check-circle" width="40" height="40" style="color: #059669;"></i>
+      </div>
+      <h3 style="font-size: 20px; margin-bottom: 8px;">${pub.nombre}</h3>
+      <p style="color: #64748b; margin-bottom: 24px;">Ya enviaste tu informe de ${mesNombre}</p>
       
-      document.getElementById('paso-informe').classList.remove('hidden');
-      document.getElementById('nombre-seleccionado').textContent = pub.nombre;
+      <div style="background: #f8fafc; padding: 20px; border-radius: 12px; text-align: left; margin-bottom: 16px;">
+        ${esPrecursor ? `
+          <div style="margin-bottom: 12px;">
+            <span style="color: #64748b; font-size: 14px;">Horas:</span>
+            <span style="color: #0f172a; font-size: 18px; font-weight: 600; margin-left: 8px;">${informe.participacion}</span>
+          </div>
+        ` : `
+          <div style="margin-bottom: 12px;">
+            <span style="color: #64748b; font-size: 14px;">Participación:</span>
+            <span style="color: #0f172a; font-size: 18px; font-weight: 600; margin-left: 8px;">${informe.participacion === 'SI' ? 'Sí participé' : 'No participé'}</span>
+          </div>
+        `}
+        <div>
+          <span style="color: #64748b; font-size: 14px;">Estudios:</span>
+          <span style="color: #0f172a; font-size: 18px; font-weight: 600; margin-left: 8px;">${informe.estudios}</span>
+        </div>
+      </div>
       
-      const esPrecursor = pub.categoria.includes('Precursor');
-      
-      document.getElementById('categoria-badge').innerHTML = `
-        <i data-lucide="${esPrecursor ? 'award' : 'user'}" width="16" height="16"></i>
-        ${pub.categoria}
-      `;
-      
-      if (esPrecursor) {
-        document.getElementById('form-precursor').classList.remove('hidden');
-        document.getElementById('form-publicador').classList.add('hidden');
-      } else {
-        document.getElementById('form-publicador').classList.remove('hidden');
-        document.getElementById('form-precursor').classList.add('hidden');
-      }
-      
-      lucide.createIcons();
+      <p style="color: #64748b; font-size: 14px;">Si necesitas corregir tu informe, contacta al secretario de la congregación.</p>
+    </div>
+  `;
+  
+  document.getElementById('paso-informe').classList.remove('hidden');
+  lucide.createIcons();
+  document.getElementById('paso-informe').scrollIntoView({ behavior: 'smooth' });
+}
       
       // Scroll al formulario
       document.getElementById('paso-informe').scrollIntoView({ behavior: 'smooth' });
