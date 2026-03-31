@@ -18,8 +18,8 @@
     
     <header class="flex items-center justify-between pt-4">
       <div>
-        <h1 class="text-2xl font-extrabold tracking-tight text-white">Secretaría <span class="text-purple-500">Pro</span></h1>
-        <p class="text-slate-500 text-sm font-semibold uppercase tracking-widest" id="mes-label">Marzo 2026</p>
+        <h1 class="text-2xl font-extrabold tracking-tight text-white">Progreso<span class="text-purple-500">Informes</span></h1>
+        <p class="text-slate-500 text-sm font-semibold uppercase tracking-widest" id="mes-label"></p>
       </div>
       <div class="h-12 w-12 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-purple-500/20">
         <i data-lucide="layout-grid" class="text-white"></i>
@@ -91,51 +91,68 @@
   </div>
 
   <script>
-    lucide.createIcons();
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxTOM6Eo5yYGVtJqnBhqkjAfAZ-i3_KttrLCtMmAQa2CrSyZse6PTuHOoTMYQXTxinG4g/exec";
+  lucide.createIcons();
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxTOM6Eo5yYGVtJqnBhqkjAfAZ-i3_KttrLCtMmAQa2CrSyZse6PTuHOoTMYQXTxinG4g/exec";
 
-    document.getElementById('grupo-select').addEventListener('change', async (e) => {
-      if (!e.target.value) return;
-      
-      const loading = document.getElementById('loading');
-      const content = document.getElementById('main-content');
-      
-      loading.classList.remove('hidden');
-      content.classList.add('hidden');
+  // 1. LÓGICA DE FECHA AUTOMÁTICA
+  const mesesFull = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+  const mesesAbrev = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sept', 'oct', 'nov', 'dic'];
+  
+  const hoy = new Date();
+  // Restamos un mes para obtener el periodo de informe
+  const fechaReporte = new Date(hoy.getFullYear(), hoy.getMonth() - 1, 1);
+  
+  const nombreMes = mesesFull[fechaReporte.getMonth()];
+  const abrevMes = mesesAbrev[fechaReporte.getMonth()];
+  const anio = fechaReporte.getFullYear();
 
-      try {
-        const response = await fetch(`${SCRIPT_URL}?action=getProgresoGrupo&grupo=${e.target.value}&mes=mar`);
-        const result = await response.json();
-        const data = result.data;
+  // Ponemos el nombre en el letrero apenas carga la página
+  document.getElementById('mes-label').textContent = nombreMes + " " + anio;
 
-        document.getElementById('val-progreso').innerText = data.porcentaje + "%";
-        document.getElementById('bar-progreso').style.width = data.porcentaje + "%";
-        document.getElementById('val-horas').innerText = data.totalHoras;
-        document.getElementById('val-estudios').innerText = data.totalEstudios;
-        document.getElementById('count-c').innerText = data.completados.length;
-        document.getElementById('count-p').innerText = data.pendientes.length;
+  // 2. EVENTO DE CAMBIO DE GRUPO
+  document.getElementById('grupo-select').addEventListener('change', async (e) => {
+    if (!e.target.value) return;
+    
+    const loading = document.getElementById('loading');
+    const content = document.getElementById('main-content');
+    
+    loading.classList.remove('hidden');
+    content.classList.add('hidden');
 
-        document.getElementById('list-c').innerHTML = data.completados.map(u => `
-          <div class="glass p-4 rounded-2xl flex justify-between items-center">
-            <span class="font-semibold text-white">${u.nombre}</span>
-            <span class="text-xs font-bold text-emerald-500">${u.participacion}h</span>
-          </div>
-        `).join('');
+    try {
+      // Usamos ${abrevMes} para que la consulta sea dinámica según el mes actual
+      const response = await fetch(`${SCRIPT_URL}?action=getProgresoGrupo&grupo=${e.target.value}&mes=${abrevMes}`);
+      const result = await response.json();
+      const data = result.data;
 
-        document.getElementById('list-p').innerHTML = data.pendientes.map(u => `
-          <div class="glass p-4 rounded-2xl flex justify-between items-center border-l-4 border-orange-500/50">
-            <span class="font-semibold text-slate-300">${u.nombre}</span>
-            <span class="text-[10px] font-bold text-slate-500 uppercase">${u.categoria}</span>
-          </div>
-        `).join('');
+      document.getElementById('val-progreso').innerText = data.porcentaje + "%";
+      document.getElementById('bar-progreso').style.width = data.porcentaje + "%";
+      document.getElementById('val-horas').innerText = data.totalHoras;
+      document.getElementById('val-estudios').innerText = data.totalEstudios;
+      document.getElementById('count-c').innerText = data.completados.length;
+      document.getElementById('count-p').innerText = data.pendientes.length;
 
-        lucide.createIcons();
-        loading.classList.add('hidden');
-        content.classList.remove('hidden');
-      } catch (err) {
-        alert("Error de conexión. Verifica que el Script esté desplegado como 'Cualquiera'.");
-      }
-    });
-  </script>
+      document.getElementById('list-c').innerHTML = data.completados.map(u => `
+        <div class="glass p-4 rounded-2xl flex justify-between items-center">
+          <span class="font-semibold text-white">${u.nombre}</span>
+          <span class="text-xs font-bold text-emerald-500">${u.participacion}h</span>
+        </div>
+      `).join('');
+
+      document.getElementById('list-p').innerHTML = data.pendientes.map(u => `
+        <div class="glass p-4 rounded-2xl flex justify-between items-center border-l-4 border-orange-500/50">
+          <span class="font-semibold text-slate-300">${u.nombre}</span>
+          <span class="text-[10px] font-bold text-slate-500 uppercase">${u.categoria}</span>
+        </div>
+      `).join('');
+
+      lucide.createIcons();
+      loading.classList.add('hidden');
+      content.classList.remove('hidden');
+    } catch (err) {
+      alert("Error de conexión. Verifica que el Script esté desplegado como 'Cualquiera'.");
+    }
+  });
+</script>
 </body>
 </html>
