@@ -90,7 +90,7 @@
     </main>
   </div>
 
-  <script>
+ <script>
   lucide.createIcons();
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxTOM6Eo5yYGVtJqnBhqkjAfAZ-i3_KttrLCtMmAQa2CrSyZse6PTuHOoTMYQXTxinG4g/exec";
 
@@ -99,14 +99,12 @@
   const mesesAbrev = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sept', 'oct', 'nov', 'dic'];
   
   const hoy = new Date();
-  // Restamos un mes para obtener el periodo de informe
   const fechaReporte = new Date(hoy.getFullYear(), hoy.getMonth() - 1, 1);
   
   const nombreMes = mesesFull[fechaReporte.getMonth()];
   const abrevMes = mesesAbrev[fechaReporte.getMonth()];
   const anio = fechaReporte.getFullYear();
 
-  // Ponemos el nombre en el letrero apenas carga la página
   document.getElementById('mes-label').textContent = nombreMes + " " + anio;
 
   // 2. EVENTO DE CAMBIO DE GRUPO
@@ -120,7 +118,6 @@
     content.classList.add('hidden');
 
     try {
-      // Usamos ${abrevMes} para que la consulta sea dinámica según el mes actual
       const response = await fetch(`${SCRIPT_URL}?action=getProgresoGrupo&grupo=${e.target.value}&mes=${abrevMes}`);
       const result = await response.json();
       const data = result.data;
@@ -132,17 +129,34 @@
       document.getElementById('count-c').innerText = data.completados.length;
       document.getElementById('count-p').innerText = data.pendientes.length;
 
-      document.getElementById('list-c').innerHTML = data.completados.map(u => `
-        <div class="glass p-4 rounded-2xl flex justify-between items-center">
-          <span class="font-semibold text-white">${u.nombre}</span>
-          <span class="text-xs font-bold text-emerald-500">${u.participacion}h</span>
-        </div>
-      `).join('');
+      // --- AQUÍ ESTÁ EL CAMBIO IMPORTANTE ---
+      
+      // RENDER DE COMPLETADOS (CON LÓGICA DE 'h' Y CATEGORÍA)
+      document.getElementById('list-c').innerHTML = data.completados.map(u => {
+        const participacionTxt = typeof u.participacion === 'number' ? `${u.participacion}h` : u.participacion;
+        const estudiosTxt = u.estudios > 0 ? ` | ${u.estudios} Est.` : '';
+        
+        return `
+          <div class="glass p-4 rounded-2xl flex justify-between items-center">
+            <div class="flex flex-col">
+              <span class="font-semibold text-white text-base">${u.nombre}</span>
+              <span class="text-[10px] text-slate-500 uppercase font-bold tracking-tight">${u.categoria || ''}</span>
+            </div>
+            <span class="text-xs font-black text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded-md">
+              ${participacionTxt}${estudiosTxt}
+            </span>
+          </div>
+        `;
+      }).join('');
 
+      // RENDER DE PENDIENTES (CON CATEGORÍA)
       document.getElementById('list-p').innerHTML = data.pendientes.map(u => `
         <div class="glass p-4 rounded-2xl flex justify-between items-center border-l-4 border-orange-500/50">
-          <span class="font-semibold text-slate-300">${u.nombre}</span>
-          <span class="text-[10px] font-bold text-slate-500 uppercase">${u.categoria}</span>
+          <div class="flex flex-col">
+            <span class="font-semibold text-slate-300">${u.nombre}</span>
+            <span class="text-[10px] text-slate-500 uppercase font-bold tracking-tight">${u.categoria || ''}</span>
+          </div>
+          <span class="text-[10px] font-bold text-orange-500 uppercase tracking-widest">Pendiente</span>
         </div>
       `).join('');
 
@@ -150,7 +164,7 @@
       loading.classList.add('hidden');
       content.classList.remove('hidden');
     } catch (err) {
-      alert("Error de conexión. Verifica que el Script esté desplegado como 'Cualquiera'.");
+      alert("Error de conexión.");
     }
   });
 </script>
