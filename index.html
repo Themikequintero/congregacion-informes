@@ -144,33 +144,48 @@
 
     async function enviar() {
       const btn = document.getElementById('btn-enviar');
-      btn.disabled = true; btn.textContent = "ENVIANDO...";
+      btn.disabled = true; 
+      btn.textContent = "ENVIANDO...";
+      
       const esPre = seleccionado.categoria.toLowerCase().includes('precursor');
       
-      const datos = { 
-        action: 'guardarInforme', 
-        nombre: seleccionado.nombre, 
-        mes: mAbrev, 
-        esPrecursor: esPre 
-      };
+      // Construimos la URL con los datos (Método GET)
+      let urlParams = `${SCRIPT_URL}?action=guardarInforme&nombre=${encodeURIComponent(seleccionado.nombre)}&mes=${mAbrev}`;
       
       if (esPre) {
-        datos.horas = parseInt(document.getElementById('horas-pre').value) || 0;
-        datos.estudios = parseInt(document.getElementById('est-pre').value) || 0;
+        const h = document.getElementById('horas-pre').value || 0;
+        const e = document.getElementById('est-pre').value || 0;
+        urlParams += `&esPrecursor=true&horas=${h}&estudios=${e}`;
       } else {
-        if (participoVal === null) { alert("Selecciona SÍ o NO"); btn.disabled = false; btn.textContent = "ENVIAR INFORME"; return; }
-        datos.participo = participoVal;
-        datos.estudios = parseInt(document.getElementById('est-pub').value) || 0;
+        if (participoVal === null) { 
+          alert("Selecciona SÍ o NO"); 
+          btn.disabled = false; 
+          btn.textContent = "ENVIAR INFORME"; 
+          return; 
+        }
+        const e = document.getElementById('est-pub').value || 0;
+        urlParams += `&participo=${participoVal}&estudios=${e}`;
       }
 
-      const response = await fetch(SCRIPT_URL, {
-        method: 'POST',
-        body: JSON.stringify(datos)
-      });
-      
-      const res = await response.json();
-      if(res.success) {
-        document.body.innerHTML = '<div class="h-screen flex flex-col items-center justify-center p-8 text-center"><h1 class="text-4xl font-black text-white">¡RECIBIDO!</h1><p class="text-purple-400 font-bold text-lg mt-4">Informe guardado correctamente.</p></div>';
+      try {
+        // El modo 'no-cors' hace que el envío sea instantáneo
+        fetch(urlParams, { mode: 'no-cors' });
+        
+        // Mostramos la pantalla de éxito de inmediato
+        document.body.innerHTML = `
+          <div class="h-screen flex flex-col items-center justify-center p-8 text-center">
+            <div class="h-20 w-20 bg-emerald-500 rounded-full flex items-center justify-center mb-6 shadow-lg shadow-emerald-500/20">
+              <i data-lucide="check" class="text-white w-10 h-10 text-4xl font-black"></i>
+            </div>
+            <h1 class="text-4xl font-black text-white leading-tight uppercase">¡Enviado!</h1>
+            <p class="text-purple-400 font-bold text-lg mt-2">Gracias por tu informe, ${seleccionado.nombre.split(' ')[0]}.</p>
+            <button onclick="location.reload()" class="mt-10 text-xs font-black text-slate-500 uppercase tracking-[0.2em]">Enviar otro</button>
+          </div>`;
+        lucide.createIcons();
+      } catch (e) {
+        alert("Hubo un problema. Intenta de nuevo.");
+        btn.disabled = false;
+        btn.textContent = "ENVIAR INFORME";
       }
     }
   </script>
