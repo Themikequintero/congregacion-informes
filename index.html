@@ -153,11 +153,6 @@
       lucide.createIcons();
     }
 
-    document.getElementById('search-input').addEventListener('input', (e) => {
-      const filtered = pubs.filter(u => u.nombre.toLowerCase().includes(e.target.value.toLowerCase()));
-      renderList(filtered);
-    });
-
     function selectPub(nombre, cat) {
       seleccionado = { nombre, categoria: cat };
       document.getElementById('step-1').classList.add('hidden');
@@ -215,7 +210,7 @@
             </div>
             <h1 class="text-4xl font-black text-white leading-tight uppercase">¡Enviado!</h1>
             <p class="text-purple-400 font-bold text-lg mt-2">Gracias por tu informe, ${seleccionado.nombre.split(' ')[0]}.</p>
-            <button onclick="location.reload()" class="mt-10 text-xs font-black text-slate-500 uppercase tracking-[0.2em]">Enviar otro</button>
+            <button onclick="location.reload()" class="mt-10 text-xs font-black text-slate-500 uppercase tracking-[0.2em]">VOLVER AL INICIO</button>
           </div>`;
         lucide.createIcons();
       } catch (e) {
