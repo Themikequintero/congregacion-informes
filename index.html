@@ -100,7 +100,7 @@
 
     async function elegirGrupo(g) {
       document.getElementById('step-2').classList.remove('hidden');
-      document.getElementById('list-container').innerHTML = '<p class="text-center py-10 text-purple-400 font-bold animate-pulse text-xs tracking-widest uppercase">Cargando hermanos...</p>';
+      document.getElementById('list-container').innerHTML = '<p class="text-center py-10 text-purple-400 font-bold animate-pulse text-xs tracking-widest uppercase">Espera un momento...</p>';
       
       const res = await fetch(`${SCRIPT_URL}?action=getProgresoGrupo&grupo=${g}&mes=${mAbrev}`);
       const json = await res.json();
