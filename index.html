@@ -26,7 +26,7 @@
       flex-direction: column;
       justify-content: center; /* Centra el contenido verticalmente */
       align-items: center;
-      min-h-screen;
+      min-height: 100vh;
       background: radial-gradient(circle at 50% 50%, #120d1d 0%, #000000 100%);
     }
 
@@ -122,27 +122,41 @@
     let seleccionado = null;
     let participoVal = null;
 
-    async function elegirGrupo(g) {
-  document.getElementById('step-2').classList.remove('hidden');
-  
-  // Mantenemos TU TEXTO, pero le añadimos el círculo de carga arriba
-  document.getElementById('list-container').innerHTML = `
-    <div class="flex flex-col items-center justify-center py-16 space-y-6">
-      <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.3)]"></div>
+   async function elegirGrupo(g) {
+      // 1. Limpieza de pantalla inmediata
+      document.getElementById('step-1').classList.add('hidden'); 
+      document.getElementById('step-2').classList.remove('hidden');
       
-      <p class="text-purple-400 font-bold animate-pulse text-[10px] tracking-widest uppercase text-center">
-        Espera un momento...
-      </p>
-    </div>
-  `;
-  
-  // El resto del código sigue intacto (Seguridad total)
-  const res = await fetch(`${SCRIPT_URL}?action=getProgresoGrupo&grupo=${g}&mes=${mAbrev}`);
-  const json = await res.json();
-  
-  pubs = [...json.data.completados, ...json.data.pendientes];
-  renderList(pubs);
-}
+      // 2. Tu loader púrpura
+      document.getElementById('list-container').innerHTML = `
+        <div class="flex flex-col items-center justify-center py-16 space-y-6">
+          <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.3)]"></div>
+          <p class="text-purple-400 font-bold animate-pulse text-[10px] tracking-widest uppercase text-center">
+            Espera un momento...
+          </p>
+        </div>
+      `;
+      
+      try {
+        // 3. Petición al motor de Google
+        const res = await fetch(`${SCRIPT_URL}?action=getProgresoGrupo&grupo=${g}&mes=${mAbrev}`);
+        const json = await res.json();
+        
+        // 4. Carga de la lista
+        if (json && json.data) {
+          pubs = [...json.data.completados, ...json.data.pendientes];
+          renderList(pubs);
+        }
+      } catch (err) {
+        // 5. Si algo falla (internet, servidor), avisamos en vez de dejar el círculo girando
+        document.getElementById('list-container').innerHTML = `
+          <div class="text-center py-10">
+            <p class="text-red-400 font-bold text-xs uppercase tracking-widest">Error de conexión</p>
+            <button onclick="location.reload()" class="mt-4 text-[10px] text-white underline">REINTENTAR</button>
+          </div>
+        `;
+      }
+    }
 
     function renderList(list) {
       document.getElementById('list-container').innerHTML = list.map(u => `
