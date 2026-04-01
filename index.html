@@ -14,9 +14,34 @@
     .btn-grad { background: linear-gradient(135deg, #5a398a 0%, #7b5aa6 100%); color: white; font-weight: 800; padding: 1.2rem; border-radius: 1.2rem; width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
     .btn-active-si { border: 2px solid #7b5aa6; background: rgba(123, 90, 166, 0.2); }
     .btn-active-no { border: 2px solid #ef4444; background: rgba(239, 68, 68, 0.1); }
+    /* Mejora de fondo y centrado */
+    html, body { 
+      height: 100%; 
+      margin: 0; 
+      overflow-x: hidden;
+    }
+    
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center; /* Centra el contenido verticalmente */
+      align-items: center;
+      min-h-screen;
+      background: radial-gradient(circle at 50% 50%, #120d1d 0%, #000000 100%);
+    }
+
+    /* Pequeña animación de entrada para los pasos */
+    #step-1, #step-2, #step-3 {
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
-<body class="p-4 flex flex-col items-center">
+<body class="p-4">
   <div class="w-full max-w-md space-y-6">
     
     <header class="glass p-8 rounded-[2.5rem] text-center space-y-3">
