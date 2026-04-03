@@ -8,33 +8,55 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;800&display=swap');
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #000; color: #cbd5e1; }
-    .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.08); }
-    .input-field { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 1.2rem; border-radius: 1.2rem; width: 100%; outline: none; text-align: center; font-size: 1.2rem; }
-    .btn-grad { background: linear-gradient(135deg, #5a398a 0%, #7b5aa6 100%); color: white; font-weight: 800; padding: 1.2rem; border-radius: 1.2rem; width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
-    .btn-active-si { border: 2px solid #7b5aa6; background: rgba(123, 90, 166, 0.2); }
-    .btn-active-no { border: 2px solid #ef4444; background: rgba(239, 68, 68, 0.1); }
-    /* Mejora de fondo y centrado */
-    html, body { 
-      height: 100%; 
-      margin: 0; 
-      overflow-x: hidden;
-    }
     
-    body {
+    body { 
+      font-family: 'Plus Jakarta Sans', sans-serif; 
+      background: #f8fafc; /* Light Theme */
+      color: #1e293b; 
+      margin: 0;
       display: flex;
       flex-direction: column;
-      justify-content: center; /* Centra el contenido verticalmente */
+      justify-content: center;
       align-items: center;
       min-height: 100vh;
-      background: radial-gradient(circle at 50% 50%, #120d1d 0%, #000000 100%);
+      overflow-x: hidden;
     }
 
-    /* Pequeña animación de entrada para los pasos */
-    #step-1, #step-2, #step-3 {
-      animation: fadeIn 0.4s ease-out;
+    .glass { 
+      background: white; 
+      box-shadow: 0 4px 20px -1px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e2e8f0; 
     }
 
+    .input-field { 
+      background: #f1f5f9; 
+      border: 1px solid #cbd5e1; 
+      color: #0f172a; 
+      padding: 1.2rem; 
+      border-radius: 1.2rem; 
+      width: 100%; 
+      outline: none; 
+      text-align: center; 
+      font-size: 1.2rem; 
+    }
+
+    .btn-grad { 
+      background: linear-gradient(135deg, #5a398a 0%, #7b5aa6 100%); 
+      color: white; 
+      font-weight: 800; 
+      padding: 1.2rem; 
+      border-radius: 1.2rem; 
+      width: 100%; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      gap: 0.5rem; 
+    }
+
+    .btn-active-si { border: 2px solid #7b5aa6; background: rgba(123, 90, 166, 0.1); }
+    .btn-active-no { border: 2px solid #ef4444; background: rgba(239, 68, 68, 0.05); }
+
+    #step-1, #step-2, #step-3 { animation: fadeIn 0.4s ease-out; }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
@@ -44,57 +66,60 @@
 <body class="p-4">
   <div class="w-full max-w-md space-y-6">
     
-    <header class="glass p-8 rounded-[2.5rem] text-center space-y-3">
+    <header class="glass p-8 rounded-[2.5rem] text-center space-y-2">
       <div class="h-14 w-14 bg-purple-600 rounded-2xl flex items-center justify-center mx-auto shadow-lg shadow-purple-500/20">
-        <i data-lucide="send" class="text-white"></i>
+        <i data-lucide="book-open-text" class="text-white"></i>
       </div>
-      <h1 class="text-2xl font-extrabold text-white">Enviar Informe</h1>
-      <p id="label-mes" class="text-purple-400 font-bold text-xs uppercase tracking-widest"></p>
+      <h1 class="text-2xl font-extrabold text-slate-900">Enviar Informe</h1>
+      <p class="text-slate-500 font-bold text-sm">Congregación Los Alpes - Jamundí</p>
+      <p id="label-mes" class="text-purple-600 font-bold text-xs uppercase tracking-widest"></p>
     </header>
 
     <div id="step-1" class="glass p-6 rounded-[2rem] space-y-4 text-center">
-      <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">¿Cuál es tu grupo?</p>
+      <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">¿Cuál es tu grupo?</p>
       <div class="grid grid-cols-4 gap-2">
-        <button onclick="elegirGrupo(1)" class="glass p-4 rounded-xl font-black text-xl">1</button>
-        <button onclick="elegirGrupo(2)" class="glass p-4 rounded-xl font-black text-xl">2</button>
-        <button onclick="elegirGrupo(3)" class="glass p-4 rounded-xl font-black text-xl">3</button>
-        <button onclick="elegirGrupo(4)" class="glass p-4 rounded-xl font-black text-xl">4</button>
-        <button onclick="elegirGrupo(5)" class="glass p-4 rounded-xl font-black text-xl">5</button>
-        <button onclick="elegirGrupo(6)" class="glass p-4 rounded-xl font-black text-xl">6</button>
-        <button onclick="elegirGrupo(7)" class="glass p-4 rounded-xl font-black text-xl">7</button>
+        <button onclick="elegirGrupo(1)" class="border border-slate-100 bg-slate-50 p-4 rounded-xl font-black text-xl text-slate-700 hover:bg-slate-100 transition-all">1</button>
+        <button onclick="elegirGrupo(2)" class="border border-slate-100 bg-slate-50 p-4 rounded-xl font-black text-xl text-slate-700 hover:bg-slate-100 transition-all">2</button>
+        <button onclick="elegirGrupo(3)" class="border border-slate-100 bg-slate-50 p-4 rounded-xl font-black text-xl text-slate-700 hover:bg-slate-100 transition-all">3</button>
+        <button onclick="elegirGrupo(4)" class="border border-slate-100 bg-slate-50 p-4 rounded-xl font-black text-xl text-slate-700 hover:bg-slate-100 transition-all">4</button>
+        <button onclick="elegirGrupo(5)" class="border border-slate-100 bg-slate-50 p-4 rounded-xl font-black text-xl text-slate-700 hover:bg-slate-100 transition-all">5</button>
+        <button onclick="elegirGrupo(6)" class="border border-slate-100 bg-slate-50 p-4 rounded-xl font-black text-xl text-slate-700 hover:bg-slate-100 transition-all">6</button>
+        <button onclick="elegirGrupo(7)" class="border border-slate-100 bg-slate-50 p-4 rounded-xl font-black text-xl text-slate-700 hover:bg-slate-100 transition-all">7</button>
       </div>
     </div>
 
     <div id="step-2" class="hidden glass p-6 rounded-[2rem] space-y-4">
+      <button onclick="volverPaso1()" class="flex items-center gap-2 text-slate-400 font-bold text-[10px] uppercase tracking-widest hover:text-purple-600 transition-colors mb-2">
+        <i data-lucide="arrow-left" class="w-3"></i> Volver a grupos
+      </button>
       <div id="list-container" class="max-h-80 overflow-y-auto space-y-2"></div>
     </div>
 
     <div id="step-3" class="hidden glass p-8 rounded-[2.5rem] space-y-6">
-      <div class="text-center border-b border-white/5 pb-4">
-        <h2 id="display-nombre" class="text-xl font-extrabold text-white"></h2>
-        <p id="display-categoria" class="text-[10px] text-purple-400 font-bold uppercase mt-1"></p>
+      <div class="text-center border-b border-slate-100 pb-4">
+        <h2 id="display-nombre" class="text-xl font-extrabold text-slate-800"></h2>
+        <p id="display-categoria" class="text-[10px] text-purple-600 font-bold uppercase mt-1"></p>
       </div>
 
       <div id="form-pub" class="hidden space-y-6">
-        <p class="text-[10px] font-bold text-slate-500 uppercase text-center">¿Participó en alguna faceta del ministerio?</p>
-        
+        <p class="text-[10px] font-bold text-slate-400 uppercase text-center">¿Participó en el ministerio?</p>
         <div class="flex gap-4">
-          <button onclick="setParticipo(true)" id="btn-si" class="flex-1 glass p-5 rounded-2xl font-bold text-lg">SÍ</button>
-          <button onclick="setParticipo(false)" id="btn-no" class="flex-1 glass p-5 rounded-2xl font-bold text-lg">NO</button>
+          <button onclick="setParticipo(true)" id="btn-si" class="flex-1 glass p-5 rounded-2xl font-bold text-lg text-slate-700">SÍ</button>
+          <button onclick="setParticipo(false)" id="btn-no" class="flex-1 glass p-5 rounded-2xl font-bold text-lg text-slate-700">NO</button>
         </div>
         <div class="space-y-2 text-center">
-          <label class="text-[10px] font-bold text-slate-500 uppercase">Estudios Bíblicos</label>
+          <label class="text-[10px] font-bold text-slate-400 uppercase">Estudios Bíblicos</label>
           <input type="number" id="est-pub" class="input-field text-3xl font-black" value="0">
         </div>
       </div>
 
       <div id="form-pre" class="hidden space-y-6 text-center">
         <div class="space-y-2 text-center">
-          <label class="text-[10px] font-bold text-slate-500 uppercase">Horas</label>
+          <label class="text-[10px] font-bold text-slate-400 uppercase">Horas</label>
           <input type="number" id="horas-pre" class="input-field text-5xl font-black" placeholder="0">
         </div>
         <div class="space-y-2 text-center">
-          <label class="text-[10px] font-bold text-slate-500 uppercase">Estudios Bíblicos</label>
+          <label class="text-[10px] font-bold text-slate-400 uppercase">Estudios Bíblicos</label>
           <input type="number" id="est-pre" class="input-field text-3xl font-black" value="0">
         </div>
       </div>
@@ -107,8 +132,6 @@
 
   <script>
     lucide.createIcons();
-    
-    // USA EXACTAMENTE EL URL QUE PEGASTE EN EL BROWSER
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxTOM6Eo5yYGVtJqnBhqkjAfAZ-i3_KttrLCtMmAQa2CrSyZse6PTuHOoTMYQXTxinG4g/exec";
 
     const mesesAbrev = ['ene','feb','mar','abr','may','jun','jul','ago','sept','oct','nov','dic'];
@@ -122,59 +145,42 @@
     let seleccionado = null;
     let participoVal = null;
 
-   async function elegirGrupo(g) {
-      // 1. Limpieza de pantalla inmediata
+    async function elegirGrupo(g) {
       document.getElementById('step-1').classList.add('hidden'); 
       document.getElementById('step-2').classList.remove('hidden');
-      
-      // 2. Tu loader púrpura
       document.getElementById('list-container').innerHTML = `
         <div class="flex flex-col items-center justify-center py-16 space-y-6">
-          <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.3)]"></div>
-          <p class="text-purple-400 font-bold animate-pulse text-[10px] tracking-widest uppercase text-center">
-            Espera un momento...
-          </p>
-        </div>
-      `;
+          <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+          <p class="text-purple-600 font-bold animate-pulse text-[10px] tracking-widest uppercase text-center">Espera un momento...</p>
+        </div>`;
       
       try {
-        // 3. Petición al motor de Google
         const res = await fetch(`${SCRIPT_URL}?action=getProgresoGrupo&grupo=${g}&mes=${mAbrev}`);
         const json = await res.json();
-        
-        // 4. Carga de la lista
         if (json && json.data) {
           pubs = [...json.data.completados, ...json.data.pendientes];
           renderList(pubs);
         }
       } catch (err) {
-        // 5. Si algo falla (internet, servidor), avisamos en vez de dejar el círculo girando
-        document.getElementById('list-container').innerHTML = `
-          <div class="text-center py-10">
-            <p class="text-red-400 font-bold text-xs uppercase tracking-widest">Error de conexión</p>
-            <button onclick="location.reload()" class="mt-4 text-[10px] text-white underline">REINTENTAR</button>
-          </div>
-        `;
+        document.getElementById('list-container').innerHTML = `<p class="text-red-400 text-center py-10 font-bold text-xs">ERROR DE CONEXIÓN</p>`;
       }
     }
 
     function renderList(list) {
       document.getElementById('list-container').innerHTML = list.map(u => `
-        <div class="glass p-4 rounded-xl flex justify-between items-center mb-2 active:scale-95 transition-all" onclick="selectPub('${u.nombre}', '${u.categoria}')">
-          <span class="font-bold text-white text-sm">${u.nombre}</span>
-          <i data-lucide="chevron-right" class="w-4 text-slate-600"></i>
+        <div class="border border-slate-100 bg-slate-50 p-4 rounded-xl flex justify-between items-center mb-2 active:scale-95 transition-all" onclick="selectPub('${u.nombre}', '${u.categoria}')">
+          <span class="font-bold text-slate-700 text-sm">${u.nombre}</span>
+          <i data-lucide="chevron-right" class="w-4 text-slate-400"></i>
         </div>`).join('');
       lucide.createIcons();
     }
 
     function selectPub(nombre, cat) {
       seleccionado = { nombre, categoria: cat };
-      document.getElementById('step-1').classList.add('hidden');
       document.getElementById('step-2').classList.add('hidden');
       document.getElementById('step-3').classList.remove('hidden');
       document.getElementById('display-nombre').textContent = nombre;
       document.getElementById('display-categoria').textContent = cat;
-      
       const esPre = cat.toLowerCase().includes('precursor');
       document.getElementById('form-pre').classList.toggle('hidden', !esPre);
       document.getElementById('form-pub').classList.toggle('hidden', esPre);
@@ -183,55 +189,43 @@
 
     function setParticipo(val) {
       participoVal = val;
-      document.getElementById('btn-si').className = val ? 'flex-1 glass p-5 rounded-2xl font-bold btn-active-si text-white' : 'flex-1 glass p-5 rounded-2xl font-bold';
-      document.getElementById('btn-no').className = !val ? 'flex-1 glass p-5 rounded-2xl font-bold btn-active-no text-white' : 'flex-1 glass p-5 rounded-2xl font-bold';
+      document.getElementById('btn-si').className = val ? 'flex-1 glass p-5 rounded-2xl font-bold btn-active-si text-purple-700' : 'flex-1 glass p-5 rounded-2xl font-bold text-slate-400';
+      document.getElementById('btn-no').className = !val ? 'flex-1 glass p-5 rounded-2xl font-bold btn-active-no text-red-600' : 'flex-1 glass p-5 rounded-2xl font-bold text-slate-400';
     }
 
     async function enviar() {
       const btn = document.getElementById('btn-enviar');
-      btn.disabled = true; 
-      btn.textContent = "ENVIANDO...";
-      
+      btn.disabled = true; btn.textContent = "ENVIANDO...";
       const esPre = seleccionado.categoria.toLowerCase().includes('precursor');
-      
-      // Construimos la URL con los datos (Método GET)
       let urlParams = `${SCRIPT_URL}?action=guardarInforme&nombre=${encodeURIComponent(seleccionado.nombre)}&mes=${mAbrev}`;
-      
       if (esPre) {
-        const h = document.getElementById('horas-pre').value || 0;
-        const e = document.getElementById('est-pre').value || 0;
-        urlParams += `&esPrecursor=true&horas=${h}&estudios=${e}`;
+        urlParams += `&esPrecursor=true&horas=${document.getElementById('horas-pre').value || 0}&estudios=${document.getElementById('est-pre').value || 0}`;
       } else {
-        if (participoVal === null) { 
-          alert("Selecciona SÍ o NO"); 
-          btn.disabled = false; 
-          btn.textContent = "ENVIAR INFORME"; 
-          return; 
-        }
-        const e = document.getElementById('est-pub').value || 0;
-        urlParams += `&participo=${participoVal}&estudios=${e}`;
+        if (participoVal === null) { alert("Selecciona SÍ o NO"); btn.disabled = false; btn.textContent = "ENVIAR INFORME"; return; }
+        urlParams += `&participo=${participoVal}&estudios=${document.getElementById('est-pub').value || 0}`;
       }
-
       try {
-        // El modo 'no-cors' hace que el envío sea instantáneo
         fetch(urlParams, { mode: 'no-cors' });
-        
-        // Mostramos la pantalla de éxito de inmediato
         document.body.innerHTML = `
-          <div class="h-screen flex flex-col items-center justify-center p-8 text-center">
+          <div class="h-screen flex flex-col items-center justify-center p-8 text-center bg-[#f8fafc]">
             <div class="h-20 w-20 bg-emerald-500 rounded-full flex items-center justify-center mb-6 shadow-lg shadow-emerald-500/20">
-              <i data-lucide="check" class="text-white w-10 h-10 text-4xl font-black"></i>
+              <i data-lucide="check" class="text-white w-10 h-10"></i>
             </div>
-            <h1 class="text-4xl font-black text-white leading-tight uppercase">¡Enviado!</h1>
-            <p class="text-purple-400 font-bold text-lg mt-2">Gracias por tu informe, ${seleccionado.nombre.split(' ')[0]}.</p>
-            <button onclick="location.reload()" class="mt-10 text-xs font-black text-slate-500 uppercase tracking-[0.2em]">VOLVER AL INICIO</button>
+            <h1 class="text-4xl font-black text-slate-800 uppercase">¡Enviado!</h1>
+            <p class="text-purple-600 font-bold text-lg mt-2">Gracias por tu informe, ${seleccionado.nombre.split(' ')[0]}.</p>
+            <button onclick="location.reload()" class="mt-10 text-xs font-black text-slate-400 uppercase tracking-widest hover:text-purple-600 transition-all">VOLVER AL INICIO</button>
           </div>`;
         lucide.createIcons();
       } catch (e) {
-        alert("Hubo un problema. Intenta de nuevo.");
-        btn.disabled = false;
-        btn.textContent = "ENVIAR INFORME";
+        alert("Error. Intenta de nuevo.");
+        btn.disabled = false; btn.textContent = "ENVIAR INFORME";
       }
+    }
+
+    function volverPaso1() {
+      document.getElementById('step-2').classList.add('hidden');
+      document.getElementById('step-1').classList.remove('hidden');
+      document.getElementById('list-container').innerHTML = '';
     }
   </script>
 </body>
