@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="dark">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,112 +8,131 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #050505; }
-    .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); }
+    
+    body { 
+      font-family: 'Plus Jakarta Sans', sans-serif; 
+      background-color: #f8fafc; /* Light Theme Background */
+      color: #1e293b; 
+    }
+
+    .glass { 
+      background: white; 
+      box-shadow: 0 4px 20px -1px rgba(0, 0, 0, 0.05); 
+      border: 1px solid #e2e8f0; 
+    }
+
+    /* Estilo del Select mejorado para Light Mode */
+    #grupo-select {
+      background: white;
+      border: 2px solid #e2e8f0;
+      color: #1e293b;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    }
+    #grupo-select:focus {
+      border-color: #7b5aa6;
+    }
   </style>
 </head>
-<body class="text-slate-200 p-4 pb-20">
+<body class="p-4 pb-20">
 
   <div class="max-w-md mx-auto space-y-6">
     
     <header class="flex items-center justify-between pt-4">
       <div>
-        <h1 class="text-2xl font-extrabold tracking-tight text-white">Progreso<span class="text-purple-500">Informes</span></h1>
-        <p class="text-slate-500 text-sm font-semibold uppercase tracking-widest" id="mes-label"></p>
+        <h1 class="text-2xl font-extrabold tracking-tight text-slate-800">
+          Progreso<span style="color: #7b5aa6;">Informes</span>
+        </h1>
+        <p class="font-bold text-xs uppercase tracking-[0.2em]" id="mes-label" style="color: #800020;"></p>
       </div>
-      <div class="h-12 w-12 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-purple-500/20">
+      <div class="h-12 w-12 rounded-2xl flex items-center justify-center shadow-lg shadow-purple-500/20" 
+           style="background: linear-gradient(135deg, #5a398a 0%, #7b5aa6 100%);">
         <i data-lucide="layout-grid" class="text-white"></i>
       </div>
     </header>
 
     <div class="relative">
-      <select id="grupo-select" class="w-full bg-slate-900 border-2 border-slate-800 text-white p-5 rounded-2xl appearance-none focus:border-purple-500 outline-none transition-all font-bold text-lg shadow-xl">
+      <select id="grupo-select" class="w-full p-5 rounded-2xl appearance-none outline-none transition-all font-bold text-lg">
         <option value="">Seleccionar Grupo</option>
         <option value="1">Grupo 1</option><option value="2">Grupo 2</option>
         <option value="3">Grupo 3</option><option value="4">Grupo 4</option>
         <option value="5">Grupo 5</option><option value="6">Grupo 6</option>
         <option value="7">Grupo 7</option>
       </select>
-      <div class="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">
+      <div class="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
         <i data-lucide="chevron-down"></i>
       </div>
     </div>
 
     <div id="loading" class="hidden flex flex-col items-center py-12 space-y-4">
-      <div class="h-10 w-10 border-4 border-purple-500/20 border-t-purple-500 rounded-full animate-spin"></div>
-      <p class="text-slate-400 font-medium animate-pulse">Sincronizando datos...</p>
+      <div class="h-10 w-10 border-4 border-slate-200 animate-spin rounded-full" 
+           style="border-top-color: #7b5aa6;"></div>
+      <p class="font-bold animate-pulse text-[10px] uppercase tracking-widest" style="color: #7b5aa6;">Sincronizando datos...</p>
     </div>
 
     <main id="main-content" class="hidden space-y-4">
       
       <div class="glass p-6 rounded-[2.5rem] relative overflow-hidden">
-        <div class="relative z-10">
-          <p class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Progreso General</p>
-          <div class="flex items-end gap-2">
-            <span class="text-6xl font-black text-white" id="val-progreso">0%</span>
-          </div>
-          <div class="w-full h-3 bg-slate-800 rounded-full mt-4 overflow-hidden">
-            <div id="bar-progreso" class="h-full bg-gradient-to-r from-purple-600 to-emerald-500 transition-all duration-1000" style="width: 0%"></div>
-          </div>
+        <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-1">Progreso General</p>
+        <div class="flex items-end gap-2">
+          <span class="text-6xl font-black" id="val-progreso" style="color: #7b5aa6;">0%</span>
+        </div>
+        <div class="w-full h-3 bg-slate-100 rounded-full mt-4 overflow-hidden">
+          <div id="bar-progreso" class="h-full transition-all duration-1000 rounded-full" 
+               style="width: 0%; background: linear-gradient(90deg, #7b5aa6 0%, #008080 100%);"></div>
         </div>
       </div>
 
       <div class="grid grid-cols-2 gap-4">
         <div class="glass p-5 rounded-[2rem]">
-          <p class="text-slate-500 text-[10px] font-bold uppercase mb-1">Horas</p>
-          <p class="text-3xl font-bold text-white" id="val-horas">0</p>
+          <p class="text-slate-400 text-[10px] font-bold uppercase mb-1">Total Horas</p>
+          <p class="text-3xl font-bold" id="val-horas" style="color: #1e293b;">0</p>
         </div>
         <div class="glass p-5 rounded-[2rem]">
-          <p class="text-slate-500 text-[10px] font-bold uppercase mb-1">Estudios</p>
-          <p class="text-3xl font-bold text-white" id="val-estudios">0</p>
+          <p class="text-slate-400 text-[10px] font-bold uppercase mb-1">Estudios</p>
+          <p class="text-3xl font-bold" id="val-estudios" style="color: #1e293b;">0</p>
         </div>
       </div>
 
       <section class="space-y-4">
+        
         <div class="flex items-center justify-between px-2">
-          <h2 class="font-bold text-slate-300 flex items-center gap-2">
-            <i data-lucide="check-circle" class="text-emerald-500 w-5"></i> Informes
+          <h2 class="font-bold text-slate-700 flex items-center gap-2">
+            <i data-lucide="check-circle" style="color: #008080;" class="w-5"></i> Recibidos
           </h2>
-          <span id="count-c" class="bg-emerald-500/10 text-emerald-500 text-xs font-bold px-3 py-1 rounded-full">0</span>
+          <span id="count-c" class="text-xs font-bold px-3 py-1 rounded-full" 
+                style="background: rgba(0, 128, 128, 0.1); color: #008080;">0</span>
         </div>
         <div id="list-c" class="space-y-2"></div>
 
         <div class="flex items-center justify-between px-2 pt-4">
-          <h2 class="font-bold text-slate-300 flex items-center gap-2">
-            <i data-lucide="clock" class="text-orange-500 w-5"></i> Pendientes
+          <h2 class="font-bold text-slate-700 flex items-center gap-2">
+            <i data-lucide="clock" style="color: #d78e00;" class="w-5"></i> Pendientes
           </h2>
-          <span id="count-p" class="bg-orange-500/10 text-orange-500 text-xs font-bold px-3 py-1 rounded-full">0</span>
+          <span id="count-p" class="text-xs font-bold px-3 py-1 rounded-full" 
+                style="background: rgba(215, 142, 0, 0.1); color: #d78e00;">0</span>
         </div>
         <div id="list-p" class="space-y-2"></div>
-      </section>
 
+      </section>
     </main>
   </div>
 
- <script>
+<script>
   lucide.createIcons();
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxTOM6Eo5yYGVtJqnBhqkjAfAZ-i3_KttrLCtMmAQa2CrSyZse6PTuHOoTMYQXTxinG4g/exec";
 
-  // 1. LÓGICA DE FECHA AUTOMÁTICA
   const mesesFull = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
   const mesesAbrev = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sept', 'oct', 'nov', 'dic'];
-  
   const hoy = new Date();
   const fechaReporte = new Date(hoy.getFullYear(), hoy.getMonth() - 1, 1);
-  
   const nombreMes = mesesFull[fechaReporte.getMonth()];
   const abrevMes = mesesAbrev[fechaReporte.getMonth()];
-  const anio = fechaReporte.getFullYear();
+  document.getElementById('mes-label').textContent = nombreMes + " " + fechaReporte.getFullYear();
 
-  document.getElementById('mes-label').textContent = nombreMes + " " + anio;
-
-  // 2. EVENTO DE CAMBIO DE GRUPO
   document.getElementById('grupo-select').addEventListener('change', async (e) => {
     if (!e.target.value) return;
-    
     const loading = document.getElementById('loading');
     const content = document.getElementById('main-content');
-    
     loading.classList.remove('hidden');
     content.classList.add('hidden');
 
@@ -129,36 +148,31 @@
       document.getElementById('count-c').innerText = data.completados.length;
       document.getElementById('count-p').innerText = data.pendientes.length;
 
-      // --- AQUÍ ESTÁ EL CAMBIO IMPORTANTE ---
-      
-      // RENDER DE COMPLETADOS (CON LÓGICA DE 'h' Y CATEGORÍA)
+      // RENDER RECIBIDOS
       document.getElementById('list-c').innerHTML = data.completados.map(u => {
-        const participacionTxt = typeof u.participacion === 'number' ? `${u.participacion}h` : u.participacion;
-        const estudiosTxt = u.estudios > 0 ? ` | ${u.estudios} Est.` : '';
-        
+        const part = typeof u.participacion === 'number' ? `${u.participacion}h` : u.participacion;
+        const est = u.estudios > 0 ? ` | ${u.estudios} Est.` : '';
         return `
           <div class="glass p-4 rounded-2xl flex justify-between items-center">
             <div class="flex flex-col">
-              <span class="font-semibold text-white text-base">${u.nombre}</span>
-              <span class="text-[10px] text-slate-500 uppercase font-bold tracking-tight">${u.categoria || ''}</span>
+              <span class="font-bold text-slate-700 text-sm">${u.nombre}</span>
+              <span class="text-[10px] text-slate-400 uppercase font-bold tracking-tight">${u.categoria || ''}</span>
             </div>
-            <span class="text-xs font-black text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded-md">
-              ${participacionTxt}${estudiosTxt}
+            <span class="text-xs font-black px-2 py-1 rounded-md" style="background: rgba(0, 128, 128, 0.1); color: #008080;">
+              ${part}${est}
             </span>
-          </div>
-        `;
+          </div>`;
       }).join('');
 
-      // RENDER DE PENDIENTES (CON CATEGORÍA)
+      // RENDER PENDIENTES
       document.getElementById('list-p').innerHTML = data.pendientes.map(u => `
-        <div class="glass p-4 rounded-2xl flex justify-between items-center border-l-4 border-orange-500/50">
+        <div class="glass p-4 rounded-2xl flex justify-between items-center border-l-4" style="border-color: #d78e00;">
           <div class="flex flex-col">
-            <span class="font-semibold text-slate-300">${u.nombre}</span>
-            <span class="text-[10px] text-slate-500 uppercase font-bold tracking-tight">${u.categoria || ''}</span>
+            <span class="font-bold text-slate-700 text-sm">${u.nombre}</span>
+            <span class="text-[10px] text-slate-400 uppercase font-bold tracking-tight">${u.categoria || ''}</span>
           </div>
-          <span class="text-[10px] font-bold text-orange-500 uppercase tracking-widest">Pendiente</span>
-        </div>
-      `).join('');
+          <span class="text-[9px] font-black uppercase tracking-widest" style="color: #d78e00;">Pendiente</span>
+        </div>`).join('');
 
       lucide.createIcons();
       loading.classList.add('hidden');
