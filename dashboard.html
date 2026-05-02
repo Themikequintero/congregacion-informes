@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Progreso de Informes | Los Alpes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --surface:       #FFFFFF;
+      --accent:        #6040A8;
+      --accent-light:  #8B65CC;
+      --teal:          #0D8A7A;
+      --teal-bg:       rgba(13,138,122,0.09);
+      --amber:         #C47F00;
+      --amber-bg:      rgba(196,127,0,0.09);
+      --title:         #1C1340;
+      --subtitle:      #8B7BAD;
+      --secondary:     #A09ABF;
+      --divider:       #EEEBF7;
+      --fill:          #F3F0FB;
+      --r-xl:          32px;
+      --r-lg:          24px;
+      --r-md:          18px;
+      --shadow-card:   0 10px 48px rgba(96,64,168,0.09), 0 2px 10px rgba(0,0,0,0.04);
+      --shadow-circle: 6px 6px 16px rgba(150,130,190,0.28), -4px -4px 10px rgba(255,255,255,0.92);
+      --shadow-accent: 0 8px 28px rgba(96,64,168,0.34);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(160deg, #F4F1FC 0%, #EAE3F6 45%, #DDD5EE 100%);
+      background-attachment: fixed;
+      color: var(--title);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ── LAYOUT ──────────────────────────── */
+    .app {
+      width: 100%;
+      max-width: 430px;
+      margin: 0 auto;
+      padding: 52px 20px 72px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── ANIMATIONS ──────────────────────── */
+    .screen { animation: rise 0.42s cubic-bezier(0.22, 1, 0.36, 1) both; }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ═══════════════════════════════════════
+       HEADER CARD — key differentiator.
+       Purple-tinted card (vs. informe's
+       free-floating header on the gradient).
+    ═══════════════════════════════════════ */
+    .header-card {
+      width: 100%;
+      background: linear-gradient(145deg, rgba(96,64,168,0.11) 0%, rgba(139,101,204,0.07) 100%);
+      border: 1.5px solid rgba(96,64,168,0.14);
+      border-radius: var(--r-xl);
+      padding: 30px 24px 28px;
+      text-align: center;
+      margin-bottom: 14px;
+      /* no heavy shadow — tint does the work */
+    }
+
+    /* Icon with solid accent background — another differentiator */
+    .header-icon-box {
+      width: 58px; height: 58px;
+      background: linear-gradient(140deg, var(--accent), var(--accent-light));
+      border-radius: 18px;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+      box-shadow: var(--shadow-accent);
+    }
+    .header-icon-box svg { color: #fff; }
+
+    .header-title {
+      font-size: 1.625rem;
+      font-weight: 900;
+      color: var(--title);
+      letter-spacing: -0.035em;
+      line-height: 1.1;
+      margin-bottom: 10px;
+    }
+    .header-desc {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--subtitle);
+      line-height: 1.55;
+      max-width: 280px;
+      margin: 0 auto 14px;
+    }
+    .header-month {
+      display: inline-block;
+      padding: 5px 16px;
+      border-radius: 100px;
+      background: rgba(96,64,168,0.10);
+      color: var(--accent);
+      font-size: 0.6875rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    /* ── CARD (plain white, used for group grid) ── */
+    .card {
+      background: var(--surface);
+      border-radius: var(--r-xl);
+      box-shadow: var(--shadow-card);
+      padding: 28px 24px;
+      width: 100%;
+    }
+
+    .section-label {
+      font-size: 0.6875rem;
+      font-weight: 800;
+      color: var(--title);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+    .section-hint {
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--secondary);
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    /* ── GROUP GRID ──────────────────────── */
+    .group-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .group-btn:nth-child(7) { grid-column: 2; }
+
+    .group-btn {
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      border: none;
+      background: var(--surface);
+      box-shadow: var(--shadow-circle);
+      font-family: inherit;
+      font-size: 1.625rem;
+      font-weight: 800;
+      color: var(--title);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.14s ease, color 0.14s ease,
+                  box-shadow 0.14s ease, transform 0.1s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .group-btn:active {
+      background: linear-gradient(140deg, var(--accent), var(--accent-light));
+      color: #fff;
+      box-shadow: var(--shadow-accent);
+      transform: scale(0.91);
+    }
+
+    /* ── HOURGLASS LOADER ────────────────── */
+    .loader-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 52px 0;
+      gap: 18px;
+      width: 100%;
+    }
+    .hourglass-icon {
+      color: var(--accent);
+      animation: hg-flip 2.6s ease-in-out infinite;
+      transform-origin: center;
+      display: flex;
+    }
+    @keyframes hg-flip {
+      0%   { transform: rotate(0deg); }
+      30%  { transform: rotate(0deg); }
+      52%  { transform: rotate(180deg); }
+      80%  { transform: rotate(180deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .loader-text {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    /* ── DASHBOARD TOP BAR ───────────────── */
+    .dash-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      margin-bottom: 16px;
+    }
+    .dash-group-badge {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--title);
+      letter-spacing: -0.02em;
+    }
+    .btn-change {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: inherit;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--accent);
+      background: rgba(96,64,168,0.08);
+      border: none;
+      border-radius: 100px;
+      padding: 7px 14px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: opacity 0.14s ease;
+    }
+    .btn-change:active { opacity: 0.6; }
+    .btn-change svg { width: 14px; height: 14px; }
+
+    /* ── PROGRESS CARD ───────────────────── */
+    .progress-card {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+      border-radius: var(--r-xl);
+      box-shadow: var(--shadow-accent);
+      padding: 28px 24px;
+      width: 100%;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .progress-label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.72;
+      margin-bottom: 6px;
+    }
+    .progress-pct {
+      font-size: 3.75rem;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 18px;
+    }
+    .progress-track {
+      width: 100%;
+      height: 6px;
+      background: rgba(255,255,255,0.22);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      background: #fff;
+      border-radius: 100px;
+      transition: width 1s cubic-bezier(0.22,1,0.36,1);
+      width: 0%;
+    }
+
+    /* ── STAT CARDS ──────────────────────── */
+    .stat-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      width: 100%;
+      margin-bottom: 12px;
+    }
+    .stat-card {
+      background: var(--surface);
+      border-radius: var(--r-lg);
+      box-shadow: var(--shadow-card);
+      padding: 22px 20px;
+    }
+    .stat-label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--secondary);
+      margin-bottom: 8px;
+    }
+    .stat-value {
+      font-size: 2.25rem;
+      font-weight: 900;
+      color: var(--title);
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    .stat-icon { margin-bottom: 10px; }
+
+    /* ── LIST SECTIONS ───────────────────── */
+    .list-section {
+      background: var(--surface);
+      border-radius: var(--r-xl);
+      box-shadow: var(--shadow-card);
+      padding: 24px 20px;
+      width: 100%;
+    }
+    .list-section + .list-section { margin-top: 12px; }
+
+    .list-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+    .list-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9375rem;
+      font-weight: 700;
+      color: var(--title);
+    }
+    .list-title svg { flex-shrink: 0; }
+
+    .count-pill {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 100px;
+    }
+    .count-teal  { background: var(--teal-bg);  color: var(--teal); }
+    .count-amber { background: var(--amber-bg); color: var(--amber); }
+
+    .list-items { display: flex; flex-direction: column; gap: 8px; }
+
+    /* ── PERSON ITEM ─────────────────────── */
+    .person-item {
+      background: var(--fill);
+      border-radius: var(--r-md);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .person-item.pending {
+      border-left: 3px solid var(--amber);
+    }
+    .person-name {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--title);
+      line-height: 1.2;
+    }
+    .person-cat {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      color: var(--secondary);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-top: 3px;
+    }
+    .person-data {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 5px 11px;
+      border-radius: 9px;
+      background: var(--teal-bg);
+      color: var(--teal);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .person-pending-tag {
+      font-size: 0.625rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--amber);
+      flex-shrink: 0;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 20px 0 8px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--secondary);
+    }
+
+    /* ── UTILITY ─────────────────────────── */
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="app">
+
+    <!-- HEADER CARD ─────────────────────── -->
+    <div class="header-card screen" style="width:100%;">
+      <div class="header-icon-box">
+        <!-- bar-chart icon -->
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="20" x2="18" y2="10"/>
+          <line x1="12" y1="20" x2="12" y2="4"/>
+          <line x1="6"  y1="20" x2="6"  y2="14"/>
+        </svg>
+      </div>
+      <h1 class="header-title">Progreso de Informes</h1>
+      <p class="header-desc">
+        Selecciona el número de tu grupo para ver el avance de los informes
+      </p>
+      <span class="header-month" id="mes-label"></span>
+    </div>
+
+    <!-- STEP 1: GRUPO ───────────────────── -->
+    <div id="step-1" class="card screen" style="margin-top:14px;">
+      <p class="section-label">Tu grupo</p>
+      <p class="section-hint">¿Cuál es el número de tu grupo?</p>
+      <div class="group-grid">
+        <button onclick="elegirGrupo(1)" class="group-btn">1</button>
+        <button onclick="elegirGrupo(2)" class="group-btn">2</button>
+        <button onclick="elegirGrupo(3)" class="group-btn">3</button>
+        <button onclick="elegirGrupo(4)" class="group-btn">4</button>
+        <button onclick="elegirGrupo(5)" class="group-btn">5</button>
+        <button onclick="elegirGrupo(6)" class="group-btn">6</button>
+        <button onclick="elegirGrupo(7)" class="group-btn">7</button>
+      </div>
+    </div>
+
+    <!-- LOADER ──────────────────────────── -->
+    <div id="loading" class="hidden screen" style="width:100%;margin-top:14px;">
+      <div class="card">
+        <div class="loader-wrap">
+          <div class="hourglass-icon">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.6"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 3H19"/><path d="M5 21H19"/>
+              <path d="M5 3C5 3 7 9 12 12C7 15 5 21 5 21"/>
+              <path d="M19 3C19 3 17 9 12 12C17 15 19 21 19 21"/>
+              <path d="M6.5 4.5 L17.5 4.5 L12 10.5 Z" fill="currentColor" opacity="0.22" stroke="none"/>
+              <path d="M9 19.5 L15 19.5 L12 14.5 Z"   fill="currentColor" opacity="0.55" stroke="none"/>
+            </svg>
+          </div>
+          <span class="loader-text">Espera un momento…</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DASHBOARD ───────────────────────── -->
+    <div id="dashboard" class="hidden screen" style="width:100%;margin-top:14px;display:flex;flex-direction:column;gap:0;align-items:center;">
+
+      <div class="dash-topbar">
+        <span class="dash-group-badge" id="dash-group-label"></span>
+        <button onclick="cambiarGrupo()" class="btn-change">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15,18 9,12 15,6"/>
+          </svg>
+          Cambiar grupo
+        </button>
+      </div>
+
+      <!-- Progress -->
+      <div class="progress-card">
+        <p class="progress-label">Progreso General</p>
+        <p class="progress-pct" id="val-progreso">0%</p>
+        <div class="progress-track">
+          <div class="progress-bar" id="bar-progreso"></div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="stat-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                 stroke="var(--accent)" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <p class="stat-label">Total Horas</p>
+          <p class="stat-value" id="val-horas">0</p>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                 stroke="var(--accent)" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+            </svg>
+          </div>
+          <p class="stat-label">Estudios</p>
+          <p class="stat-value" id="val-estudios">0</p>
+        </div>
+      </div>
+
+      <!-- Recibidos -->
+      <div class="list-section">
+        <div class="list-header">
+          <div class="list-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                 stroke="var(--teal)" stroke-width="2.2"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            Recibidos
+          </div>
+          <span class="count-pill count-teal" id="count-c">0</span>
+        </div>
+        <div class="list-items" id="list-c"></div>
+      </div>
+
+      <!-- Pendientes -->
+      <div class="list-section" style="margin-top:12px;">
+        <div class="list-header">
+          <div class="list-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                 stroke="var(--amber)" stroke-width="2.2"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            Pendientes
+          </div>
+          <span class="count-pill count-amber" id="count-p">0</span>
+        </div>
+        <div class="list-items" id="list-p"></div>
+      </div>
+
+    </div><!-- /dashboard -->
+
+  </div><!-- /app -->
+
+  <script>
+    /* ── CONFIG ──────────────────────────────────────────── */
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxTOM6Eo5yYGVtJqnBhqkjAfAZ-i3_KttrLCtMmAQa2CrSyZse6PTuHOoTMYQXTxinG4g/exec";
+
+    /* ── MES ─────────────────────────────────────────────── */
+    const MESES_FULL  = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    const MESES_ABREV = ['ene','feb','mar','abr','may','jun','jul','ago','sept','oct','nov','dic'];
+    const hoy      = new Date();
+    const fReporte = new Date(hoy.getFullYear(), hoy.getMonth() - 1, 1);
+    const nombreMes = MESES_FULL[fReporte.getMonth()];
+    const abrevMes  = MESES_ABREV[fReporte.getMonth()];
+    document.getElementById('mes-label').textContent = nombreMes.toUpperCase() + ' ' + fReporte.getFullYear();
+
+    /* ── NAVIGATE ─────────────────────────────────────────── */
+    function show(id) {
+      ['step-1','loading','dashboard'].forEach(s => {
+        document.getElementById(s).classList.add('hidden');
+      });
+      document.getElementById(id).classList.remove('hidden');
+    }
+
+    /* ── ELEGIR GRUPO ─────────────────────────────────────── */
+    async function elegirGrupo(g) {
+      show('loading');
+      document.getElementById('dash-group-label').textContent = 'Grupo ' + g;
+
+      try {
+        const res    = await fetch(`${SCRIPT_URL}?action=getProgresoGrupo&grupo=${g}&mes=${abrevMes}`);
+        const result = await res.json();
+        const data   = result.data;
+
+        const pct = data.porcentaje || 0;
+        document.getElementById('val-progreso').textContent = pct + '%';
+        document.getElementById('bar-progreso').style.width = pct + '%';
+        document.getElementById('val-horas').textContent    = data.totalHoras    || 0;
+        document.getElementById('val-estudios').textContent = data.totalEstudios || 0;
+        document.getElementById('count-c').textContent      = data.completados.length;
+        document.getElementById('count-p').textContent      = data.pendientes.length;
+
+        /* Recibidos */
+        document.getElementById('list-c').innerHTML = data.completados.length
+          ? data.completados.map(u => {
+              const part = typeof u.participacion === 'number' ? u.participacion + 'h' : u.participacion;
+              const est  = u.estudios > 0 ? ' · ' + u.estudios + ' Est.' : '';
+              return `
+                <div class="person-item">
+                  <div>
+                    <p class="person-name">${u.nombre}</p>
+                    <p class="person-cat">${u.categoria || ''}</p>
+                  </div>
+                  <span class="person-data">${part}${est}</span>
+                </div>`;
+            }).join('')
+          : '<p class="empty-state">Sin informes recibidos aún</p>';
+
+        /* Pendientes */
+        document.getElementById('list-p').innerHTML = data.pendientes.length
+          ? data.pendientes.map(u => `
+              <div class="person-item pending">
+                <div>
+                  <p class="person-name">${u.nombre}</p>
+                  <p class="person-cat">${u.categoria || ''}</p>
+                </div>
+                <span class="person-pending-tag">Pendiente</span>
+              </div>`).join('')
+          : '<p class="empty-state">¡Todos han enviado su informe! 🎉</p>';
+
+        show('dashboard');
+
+      } catch (err) {
+        show('step-1');
+        alert('Error de conexión. Intenta de nuevo.');
+      }
+    }
+
+    /* ── CAMBIAR GRUPO ────────────────────────────────────── */
+    function cambiarGrupo() {
+      show('step-1');
+    }
+  </script>
+</body>
+</html>
