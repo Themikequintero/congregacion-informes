@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Informe | Los Alpes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --surface:       #FFFFFF;
+      --accent:        #6040A8;
+      --accent-light:  #8B65CC;
+      --title:         #1C1340;
+      --subtitle:      #8B7BAD;
+      --secondary:     #A09ABF;
+      --divider:       #EEEBF7;
+      --fill:          #F3F0FB;
+      --r-xl:          32px;
+      --r-lg:          24px;
+      --r-md:          18px;
+      --shadow-card:   0 10px 48px rgba(96,64,168,0.10), 0 2px 10px rgba(0,0,0,0.04);
+      --shadow-circle: 6px 6px 16px rgba(150,130,190,0.28), -4px -4px 10px rgba(255,255,255,0.92);
+      --shadow-accent: 0 8px 28px rgba(96,64,168,0.36);
+    }
+
+    /* ── BODY & BACKGROUND ─────────────────── */
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(160deg, #F4F1FC 0%, #EAE3F6 45%, #DDD5EE 100%);
+      background-attachment: fixed;
+      color: var(--title);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ── MAIN LAYOUT ───────────────────────── */
+    .app {
+      width: 100%;
+      max-width: 430px;
+      margin: 0 auto;
+      padding: 56px 20px 64px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    /* ── SCREEN ANIMATION ──────────────────── */
+    .screen { animation: rise 0.42s cubic-bezier(0.22, 1, 0.36, 1) both; }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ═══════════════════════════════════════
+       HEADER — floats on gradient, no card
+    ═══════════════════════════════════════ */
+    .header {
+      width: 100%;
+      text-align: center;
+      padding: 0 16px 44px;
+    }
+    .header-icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    .header-title {
+      font-size: 1.875rem;
+      font-weight: 900;
+      color: var(--title);
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      margin-bottom: 10px;
+    }
+    .header-sub {
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: var(--subtitle);
+      line-height: 1.6;
+    }
+
+    /* ═══════════════════════════════════════
+       CARD
+    ═══════════════════════════════════════ */
+    .card {
+      background: var(--surface);
+      border-radius: var(--r-xl);
+      box-shadow: var(--shadow-card);
+      padding: 28px 24px;
+      width: 100%;
+    }
+
+    /* ═══════════════════════════════════════
+       STEP 1 — GROUP SELECTION
+    ═══════════════════════════════════════ */
+    .section-label {
+      font-size: 0.6875rem;
+      font-weight: 800;
+      color: var(--title);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .group-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .group-btn:nth-child(7) { grid-column: 2; }
+
+    .group-btn {
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      border: none;
+      background: var(--surface);
+      box-shadow: var(--shadow-circle);
+      font-family: inherit;
+      font-size: 1.625rem;
+      font-weight: 800;
+      color: var(--title);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.14s ease, color 0.14s ease,
+                  box-shadow 0.14s ease, transform 0.1s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .group-btn:active {
+      background: linear-gradient(140deg, var(--accent), var(--accent-light));
+      color: #fff;
+      box-shadow: var(--shadow-accent);
+      transform: scale(0.91);
+    }
+
+    /* ═══════════════════════════════════════
+       STEP 2 — NAME LIST
+    ═══════════════════════════════════════ */
+    .step2-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 22px;
+    }
+    .step2-group-title {
+      font-size: 0.9375rem;
+      font-weight: 700;
+      color: var(--title);
+    }
+
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      font-family: inherit;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--accent);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      transition: opacity 0.14s ease;
+    }
+    .btn-back:active { opacity: 0.5; }
+
+    #list-container {
+      max-height: 390px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--divider) transparent;
+    }
+    #list-container::-webkit-scrollbar { width: 4px; }
+    #list-container::-webkit-scrollbar-thumb { background: var(--divider); border-radius: 4px; }
+
+    .name-item {
+      background: var(--fill);
+      border-radius: var(--r-md);
+      padding: 15px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: background 0.13s ease, transform 0.1s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .name-item:active {
+      background: rgba(96,64,168,0.10);
+      transform: scale(0.985);
+    }
+    .name-text {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--title);
+    }
+    .name-cat {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--secondary);
+      margin-top: 3px;
+    }
+    .name-chevron {
+      color: #C8C0E0;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    /* ═══════════════════════════════════════
+       HOURGLASS LOADER
+    ═══════════════════════════════════════ */
+    .loader-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 0;
+      gap: 18px;
+    }
+    .hourglass-icon {
+      color: var(--accent);
+      animation: hg-flip 2.6s ease-in-out infinite;
+      transform-origin: center;
+      display: flex;
+    }
+    @keyframes hg-flip {
+      0%   { transform: rotate(0deg); }
+      30%  { transform: rotate(0deg); }
+      52%  { transform: rotate(180deg); }
+      80%  { transform: rotate(180deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .loader-text {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    /* ═══════════════════════════════════════
+       STEP 3 — FORM
+    ═══════════════════════════════════════ */
+    .person-header {
+      text-align: center;
+      padding-bottom: 22px;
+      border-bottom: 1.5px solid var(--divider);
+      margin-bottom: 26px;
+    }
+    #display-nombre {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--title);
+      letter-spacing: -0.025em;
+    }
+    .cat-pill {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 5px 16px;
+      border-radius: 100px;
+      background: rgba(96,64,168,0.09);
+      color: var(--accent);
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .form-section { display: flex; flex-direction: column; gap: 20px; }
+    .field        { display: flex; flex-direction: column; gap: 9px; }
+    .field-label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      color: var(--secondary);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .num-input {
+      font-family: inherit;
+      background: var(--fill);
+      border: none;
+      border-radius: var(--r-md);
+      width: 100%;
+      padding: 18px 16px;
+      text-align: center;
+      color: var(--title);
+      font-size: 2.75rem;
+      font-weight: 800;
+      outline: none;
+      transition: background 0.14s ease;
+      -moz-appearance: textfield;
+    }
+    .num-input::-webkit-outer-spin-button,
+    .num-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+    .num-input:focus { background: rgba(96,64,168,0.07); }
+    .num-input.hours { font-size: 4rem; padding: 22px 16px; }
+
+    /* ── SI / NO ────────────────────────────── */
+    .toggle-row { display: flex; gap: 10px; }
+    .toggle-btn {
+      flex: 1;
+      height: 58px;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: var(--r-md);
+      border: 2px solid transparent;
+      background: var(--fill);
+      color: var(--secondary);
+      cursor: pointer;
+      transition: all 0.17s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .toggle-btn:active { transform: scale(0.96); }
+    .toggle-btn.active-si {
+      background: rgba(96,64,168,0.09);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .toggle-btn.active-no {
+      background: rgba(239,68,68,0.07);
+      border-color: #ef4444;
+      color: #dc2626;
+    }
+
+    /* ── SEND BUTTON ───────────────────────── */
+    .btn-primary {
+      width: 100%;
+      height: 58px;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: #fff;
+      background: linear-gradient(140deg, var(--accent), var(--accent-light));
+      border: none;
+      border-radius: var(--r-lg);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      box-shadow: var(--shadow-accent);
+      transition: opacity 0.17s ease, transform 0.1s ease;
+      -webkit-tap-highlight-color: transparent;
+      margin-top: 26px;
+    }
+    .btn-primary:active   { opacity: 0.85; transform: scale(0.98); }
+    .btn-primary:disabled { opacity: 0.5;  cursor: not-allowed;    transform: none; }
+
+    /* ── SENDING SPINNER (inside btn) ───────── */
+    .spinner-sm {
+      display: inline-block;
+      width: 18px; height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.65s linear infinite;
+      flex-shrink: 0;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ═══════════════════════════════════════
+       SUCCESS SCREEN
+    ═══════════════════════════════════════ */
+    .success-screen {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 32px;
+      background: linear-gradient(160deg, #F4F1FC 0%, #EAE3F6 45%, #DDD5EE 100%);
+      font-family: 'Inter', -apple-system, sans-serif;
+      text-align: center;
+      animation: rise 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    .success-icon {
+      width: 86px; height: 86px;
+      background: linear-gradient(140deg, var(--accent), var(--accent-light));
+      border-radius: 28px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 30px;
+      box-shadow: var(--shadow-accent);
+    }
+    .success-h1 {
+      font-size: 2.75rem;
+      font-weight: 900;
+      color: var(--title);
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      margin-bottom: 12px;
+    }
+    .success-msg  { font-size: 0.9375rem; font-weight: 500; color: var(--subtitle); }
+    .success-name { font-size: 1.25rem; font-weight: 800; color: var(--title); margin-top: 4px; letter-spacing: -0.025em; }
+    .btn-reload {
+      margin-top: 52px;
+      padding: 15px 36px;
+      background: var(--surface);
+      border: none;
+      border-radius: 100px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8125rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--accent);
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(96,64,168,0.12);
+      transition: opacity 0.15s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-reload:active { opacity: 0.65; }
+
+    /* ── UTILITY ────────────────────────────── */
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="app">
+
+    <!-- HEADER ─────────────────────────────── -->
+    <header class="header screen">
+      <!-- Book / Bible icon — inline SVG, zero dependency -->
+      <div class="header-icon">
+        <svg width="58" height="58" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="1.55"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+        </svg>
+      </div>
+      <h1 class="header-title">Enviar Informe</h1>
+      <p class="header-sub">
+        Congregación Los Alpes – Jamundí<br>
+        <span id="label-mes"></span>
+      </p>
+    </header>
+
+    <!-- STEP 1 ──────────────────────────────── -->
+    <div id="step-1" class="card screen">
+      <p class="section-label">Selecciona tu grupo</p>
+      <div class="group-grid">
+        <button onclick="elegirGrupo(1)" class="group-btn">1</button>
+        <button onclick="elegirGrupo(2)" class="group-btn">2</button>
+        <button onclick="elegirGrupo(3)" class="group-btn">3</button>
+        <button onclick="elegirGrupo(4)" class="group-btn">4</button>
+        <button onclick="elegirGrupo(5)" class="group-btn">5</button>
+        <button onclick="elegirGrupo(6)" class="group-btn">6</button>
+        <button onclick="elegirGrupo(7)" class="group-btn">7</button>
+      </div>
+    </div>
+
+    <!-- STEP 2 ──────────────────────────────── -->
+    <div id="step-2" class="hidden card screen">
+      <div class="step2-top">
+        <button onclick="volverPaso1()" class="btn-back">
+          <!-- chevron-left inline SVG -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.5"
+               stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15,18 9,12 15,6"/>
+          </svg>
+          Grupos
+        </button>
+        <span id="step2-group-label" class="step2-group-title"></span>
+        <div style="width:64px"></div>
+      </div>
+      <div id="list-container"></div>
+    </div>
+
+    <!-- STEP 3 ──────────────────────────────── -->
+    <div id="step-3" class="hidden card screen">
+
+      <div class="person-header">
+        <p id="display-nombre"></p>
+        <span class="cat-pill" id="display-categoria"></span>
+      </div>
+
+      <!-- PUBLICADOR ─────────────────── -->
+      <div id="form-pub" class="hidden form-section">
+        <div class="field">
+          <p class="field-label">¿Participó en el ministerio?</p>
+          <div class="toggle-row">
+            <button onclick="setParticipo(true)"  id="btn-si" class="toggle-btn">SÍ</button>
+            <button onclick="setParticipo(false)" id="btn-no" class="toggle-btn">NO</button>
+          </div>
+        </div>
+        <div class="field">
+          <p class="field-label">Estudios Bíblicos</p>
+          <input type="number" id="est-pub" class="num-input" value="0" min="0">
+        </div>
+      </div>
+
+      <!-- PRECURSOR ──────────────────── -->
+      <div id="form-pre" class="hidden form-section">
+        <div class="field">
+          <p class="field-label">Horas</p>
+          <input type="number" id="horas-pre" class="num-input hours" placeholder="0" min="0">
+        </div>
+        <div class="field">
+          <p class="field-label">Estudios Bíblicos</p>
+          <input type="number" id="est-pre" class="num-input" value="0" min="0">
+        </div>
+      </div>
+
+      <button onclick="enviar()" id="btn-enviar" class="btn-primary">
+        <!-- check-circle inline SVG -->
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+        Enviar Informe
+      </button>
+
+    </div>
+
+  </div><!-- /app -->
+
+  <!-- ─────────────────────────────────────────
+       ZERO external JS dependencies.
+       All icons are inline SVG.
+  ────────────────────────────────────────── -->
+  <script>
+    /* ── SCRIPT CONSTANTS ────────────────────────────────── */
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxTOM6Eo5yYGVtJqnBhqkjAfAZ-i3_KttrLCtMmAQa2CrSyZse6PTuHOoTMYQXTxinG4g/exec";
+
+    /* Inline SVG snippets used in dynamic HTML */
+    const IC_CHEVRON_RIGHT = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="9,18 15,12 9,6"/>
+    </svg>`;
+
+    const IC_CHECK = `<svg width="44" height="44" viewBox="0 0 24 24" fill="none"
+      stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"/>
+    </svg>`;
+
+    const IC_HOURGLASS = `
+      <svg width="42" height="42" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="1.6"
+           stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 3H19"/>
+        <path d="M5 21H19"/>
+        <path d="M5 3C5 3 7 9 12 12C7 15 5 21 5 21"/>
+        <path d="M19 3C19 3 17 9 12 12C17 15 19 21 19 21"/>
+        <!-- top sand fill -->
+        <path d="M6.5 4.5 L17.5 4.5 L12 10.5 Z" fill="currentColor" opacity="0.22" stroke="none"/>
+        <!-- bottom sand fill -->
+        <path d="M9 19.5 L15 19.5 L12 14.5 Z" fill="currentColor" opacity="0.55" stroke="none"/>
+      </svg>`;
+
+    /* ── MES ─────────────────────────────────────────────── */
+    const MESES_ABREV  = ['ene','feb','mar','abr','may','jun','jul','ago','sept','oct','nov','dic'];
+    const MESES_NOMBRE = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    const hoy      = new Date();
+    const fReporte = new Date(hoy.getFullYear(), hoy.getMonth() - 1, 1);
+    const mAbrev   = MESES_ABREV[fReporte.getMonth()];
+    const mNombre  = MESES_NOMBRE[fReporte.getMonth()];
+    document.getElementById('label-mes').textContent = 'Mes de ' + mNombre;
+
+    /* ── ESTADO ──────────────────────────────────────────── */
+    let pubs         = [];
+    let seleccionado = null;
+    let participoVal = null;
+
+    /* ── STEP 1 → 2 ──────────────────────────────────────── */
+    async function elegirGrupo(g) {
+      document.getElementById('step-1').classList.add('hidden');
+      document.getElementById('step-2').classList.remove('hidden');
+      document.getElementById('step2-group-label').textContent = 'Grupo ' + g;
+
+      document.getElementById('list-container').innerHTML = `
+        <div class="loader-wrap">
+          <div class="hourglass-icon" style="color:var(--accent);">
+            ${IC_HOURGLASS}
+          </div>
+          <span class="loader-text">Espera un momento…</span>
+        </div>`;
+
+      try {
+        const res  = await fetch(`${SCRIPT_URL}?action=getProgresoGrupo&grupo=${g}&mes=${mAbrev}`);
+        const json = await res.json();
+        if (json && json.data) {
+          pubs = [...json.data.completados, ...json.data.pendientes];
+          renderList(pubs);
+        }
+      } catch (err) {
+        document.getElementById('list-container').innerHTML = `
+          <div class="loader-wrap">
+            <p style="font-size:.875rem;font-weight:600;color:#ef4444;">Error de conexión</p>
+            <p style="font-size:.75rem;color:var(--secondary);margin-top:4px;">Intenta de nuevo</p>
+          </div>`;
+      }
+    }
+
+    /* ── RENDER LISTA ────────────────────────────────────── */
+    function renderList(list) {
+      if (!list.length) {
+        document.getElementById('list-container').innerHTML = `
+          <div class="loader-wrap">
+            <p style="font-size:.875rem;font-weight:600;color:var(--secondary);">Sin publicadores en este grupo</p>
+          </div>`;
+        return;
+      }
+      document.getElementById('list-container').innerHTML = list.map(u => `
+        <div class="name-item" onclick="selectPub('${u.nombre.replace(/'/g,"\\'")}', '${u.categoria.replace(/'/g,"\\'")}')">
+          <div>
+            <p class="name-text">${u.nombre}</p>
+            <p class="name-cat">${u.categoria}</p>
+          </div>
+          <span class="name-chevron">${IC_CHEVRON_RIGHT}</span>
+        </div>`).join('');
+    }
+
+    /* ── STEP 2 → 3 ──────────────────────────────────────── */
+    function selectPub(nombre, cat) {
+      seleccionado = { nombre, categoria: cat };
+      document.getElementById('step-2').classList.add('hidden');
+      document.getElementById('step-3').classList.remove('hidden');
+      document.getElementById('display-nombre').textContent = nombre;
+      document.getElementById('display-categoria').textContent = cat;
+      const esPre = cat.toLowerCase().includes('precursor');
+      document.getElementById('form-pre').classList.toggle('hidden', !esPre);
+      document.getElementById('form-pub').classList.toggle('hidden',  esPre);
+    }
+
+    /* ── SÍ / NO ─────────────────────────────────────────── */
+    function setParticipo(val) {
+      participoVal = val;
+      document.getElementById('btn-si').className = val  ? 'toggle-btn active-si' : 'toggle-btn';
+      document.getElementById('btn-no').className = !val ? 'toggle-btn active-no' : 'toggle-btn';
+    }
+
+    /* ── ENVIAR ──────────────────────────────────────────── */
+    async function enviar() {
+      const btn = document.getElementById('btn-enviar');
+      btn.disabled = true;
+      btn.innerHTML = `<span class="spinner-sm"></span>&nbsp;Enviando…`;
+
+      const esPre = seleccionado.categoria.toLowerCase().includes('precursor');
+      let urlParams = `${SCRIPT_URL}?action=guardarInforme&nombre=${encodeURIComponent(seleccionado.nombre)}&mes=${mAbrev}`;
+
+      if (esPre) {
+        urlParams += `&esPrecursor=true&horas=${document.getElementById('horas-pre').value || 0}&estudios=${document.getElementById('est-pre').value || 0}`;
+      } else {
+        if (participoVal === null) {
+          alert('Selecciona SÍ o NO');
+          btn.disabled = false;
+          btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Enviar Informe`;
+          return;
+        }
+        urlParams += `&participo=${participoVal}&estudios=${document.getElementById('est-pub').value || 0}`;
+      }
+
+      try {
+        fetch(urlParams, { mode: 'no-cors' });
+
+        const partes = seleccionado.nombre.trim().split(' ');
+        const displayNombre = (partes[0] || '') + (partes[1] ? ' ' + partes[1] : '');
+
+        document.body.innerHTML = `
+          <div class="success-screen">
+            <div class="success-icon">${IC_CHECK}</div>
+            <h1 class="success-h1">¡Listo!</h1>
+            <p class="success-msg">Informe recibido,</p>
+            <p class="success-name">${displayNombre}</p>
+            <button onclick="location.reload()" class="btn-reload">Volver al inicio</button>
+          </div>`;
+
+      } catch (e) {
+        alert('Error. Intenta de nuevo.');
+        btn.disabled = false;
+        btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Enviar Informe`;
+      }
+    }
+
+    /* ── STEP 2 → 1 ──────────────────────────────────────── */
+    function volverPaso1() {
+      document.getElementById('step-2').classList.add('hidden');
+      document.getElementById('step-1').classList.remove('hidden');
+      document.getElementById('list-container').innerHTML = '';
+      participoVal = null;
+    }
+  </script>
+</body>
+</html>
